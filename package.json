@@ -1,0 +1,20 @@
+{
+  "name": "100daysofcode",
+  "version": "1.0.0",
+  "description": "App para el challenge 100 days of code para monitorizar raspberry",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "monitoring",
+    "raspberry",
+    "nodejs",
+    "vuejs"
+  ],
+  "author": "Pedro Ramos",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
