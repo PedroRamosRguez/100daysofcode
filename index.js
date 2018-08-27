@@ -1,6 +1,7 @@
 const express = require('express');
+const morgan = require('morgan')
 let app = express();
-
+app.use(morgan('tiny'))
 app.get('/', function (req, res) {
   res.send('Hola Mundo!');
 });
