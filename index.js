@@ -3,7 +3,8 @@ const morgan = require('morgan');
 const getMem = require('./getMem.js');
 const getCpu = require('./getCpu.js');
 const getCpuTemperatura = require('./getCpuTemperatura.js');
-const getGpuTemperatura = require('./getGpuTemperatura.js')
+const getGpuTemperatura = require('./getGpuTemperatura.js');
+const getAlmacenamiento = require('./getAlmacenamiento.js');
 let app = express();
 app.use(morgan('tiny'))
 app.get('/', function (req, res) {
@@ -11,6 +12,7 @@ app.get('/', function (req, res) {
   cpu = getCpu()
   temperaturaCpu = getCpuTemperatura();
   temperaturaGpu = getGpuTemperatura();
+  almacenamiento = getAlmacenamiento();
   res.send('Hola Mundo!');
 });
 
