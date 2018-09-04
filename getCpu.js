@@ -1,12 +1,12 @@
-exec = require('child_process').exec
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+async function getCpu(){
+  const { stdout,stderr } = await exec("top -b -n 1 | grep '%Cpu' | awk '{print $2}'");
+  if(stderr){
+    console.log(`error ${stderr}`);
+  }
+  console.log(`stdout : ${stdout}`);
+  return stdout;
+}
+module.exports = { getCpu };
 
-module.exports = function getCpu(){
-  setInterval(function(){
-    var porcentajeCpuUsado;
-    child1 = exec("top -b -n 1 | grep '%Cpu' | awk '{print $2}'",function(error, stdout, stderr){
-      porcentajeCpuUsado = stdout;
-      console.log('porcentaje de uso de cpu; '+stdout+' %');
-    });
-   
-  },5000)
-};
