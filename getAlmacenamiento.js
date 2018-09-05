@@ -1,36 +1,50 @@
-exec = require('child_process').exec
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
-module.exports = function getAlmacenamiento(){
-  setInterval(function(){
-    var sistFicheros = [];
-    var tamanio = [];
-    var usado = [];
-    var libre = [];
-    var porcentajeUso = [];
-    child1 = exec("df -h |awk '0+$5 > 0 {print $1}'",function(error, stdout, stderr){
-      //slice elimina el ultimo elemento del array que es un ''	
-      sistFicheros = stdout.split('\n').slice(0,-1);
-      console.log('Sistema de ficheros: ' + sistFicheros);
-    });
-    child2 = exec("df -h |awk '0+$5 > 0 {print $2}'",function(error, stdout, stderr){
-      //slice elimina el ultimo elemento del array que es un ''	
-      tamanio = stdout.split('\n').slice(0,-1);
-      console.log('Tamaño: ' + tamanio);
-    });
-    child3 = exec("df -h |awk '0+$5 > 0 {print $3}'",function(error, stdout, stderr){
-      //slice elimina el ultimo elemento del array que es un ''	
-      usado = stdout.split('\n').slice(0,-1);
-      console.log('espacio usado: ' + usado);
-    });
-    child4 = exec("df -h |awk '0+$5 > 0 {print $4}'",function(error, stdout, stderr){
-      //slice elimina el ultimo elemento del array que es un ''	
-      libre = stdout.split('\n').slice(0,-1);
-      console.log('Espacio libre:' + libre);
-    });
-    child5 = exec("df -h |awk '0+$5 > 0 {print $5}'",function(error, stdout, stderr){
-      //slice elimina el ultimo elemento del array que es un ''	
-      porcentajeUsado = stdout.split('\n').slice(0,-1);
-      console.log('porcentaje Usado: ' + porcentajeUsado);
-    });
-  },5000)
-};
+async function getSistFichero(){
+  const { stdout, stderr } = await exec ("df -h |awk '0+$5 > 0 {print $1}'");
+  if(stderr){
+    console.log(`error ${stderr}`);
+  }
+  console.log(`stdout: ${stdout}`);
+  sistFicheros = stdout.split('\n').slice(0,-1);
+  return sistFicheros;
+}
+
+async function getTamanio(){
+  const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $2}'");
+  if(stderr){
+    console.log(`error ${stderr}`);  
+  }
+  tamanio = stdout.split('\n').slice(0,-1);
+  return tamanio;
+}
+
+async function getEspacioUsado(){
+  const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $3}'");
+  if(stderr){
+    console.log(`error ${stderr}`);
+  }
+  usado = stdout.split('\n').slice(0,-1);
+  return usado
+}
+
+async function getEspacioLibre(){
+  const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $4}'");
+  if(stderr){
+    console.log(`error ${stderr}`);
+  }
+  libre = stdout.split('\n').slice(0,-1);
+  return libre
+}
+
+async function getPorcentaje(){
+  const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $5}'");
+  if(stderr){
+    console.log(`error ${stderr}`);
+  }
+  porcentajeUsado = stdout.split('\n').slice(0,-1);
+  return porcentajeUsado
+}
+
+module.exports = { getSistFichero, getTamanio, getEspacioUsado, getEspacioLibre, getPorcentaje}

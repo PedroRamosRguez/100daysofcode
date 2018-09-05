@@ -1,11 +1,10 @@
-exec = require('child_process').exec
-
-module.exports = function getCpuTemperatura(){
-var temperaturaCpu = [];  
-  setInterval(function(){
-    child1 = exec("cat /sys/class/thermal/thermal_zone0/temp",function(error, stdout, stderr){       
-      temperaturaCpu.push(parseFloat(Math.round((stdout/1000) * 100) / 100));
-      console.log('temperatura CPu: '+temperaturaCpu);
-    });
-  },5000)
-};
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+async function getCpuTemperatura(){
+  const { stdout, stderr } = await exec("cat /sys/class/thermal/thermal_zone0/temp")
+  if(stderr){
+    console.log(`error ${stderr}`);
+  }
+  return parseFloat(Math.round((stdout/1000) * 100) / 100)
+}
+module.exports = { getCpuTemperatura }
