@@ -1,10 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
-const getMem = require('./getMem.js');
-const getCpu = require('./getCpu.js');
-const getCpuTemperatura = require('./getCpuTemperatura.js');
-const getGpuTemperatura = require('./getGpuTemperatura.js');
-const getAlmacenamiento = require('./getAlmacenamiento.js');
+const getMem = require('./src/getMem');
+const getCpu = require('./src/getCpu');
+const getCpuTemperatura = require('./src/getCpuTemperatura');
+const getGpuTemperatura = require('./src/getGpuTemperatura');
+const getAlmacenamiento = require('./src/getAlmacenamiento');
 const app = express();
 var cpu, memTotal, memLibre, memUsada, porcentajeMemLibre, porcentajeMemUsada, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
 app.use(morgan('tiny'))
