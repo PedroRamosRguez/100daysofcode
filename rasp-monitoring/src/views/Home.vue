@@ -2,22 +2,38 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png"><br/>
     Esto es la  pagina de inicio...
-    {{count}}
+    <p>Uso de la cpu:{{cpu}}</p>
   </div>
+
 </template>
 
 <script>
+const axios = require('axios');
+
 export default {
   name: 'home',
   data() {
-    return { count: 0 };
+    return { cpu: 0 };
   },
   methods: {
-    patata() { 
-      console.log('patata');
-      this.count+=1;
+    patata() {
+      console.log('llame al metodo...');
+      self = this;
+      setInterval(() => {
+        axios.get('http://192.168.1.36:3000/cpu')
+          .then((response) => {
+            console.log('exito..');
+            self.cpu = response.data;
+          })
+          .catch((error) => {
+            console.log('error');
+            console.log(error);
+          })
+          .then(() => {
+            console.log('SIEMPRE SSE EJECUTA ESTO..');
+          });
+      }, 5000);
     },
-    
   },
   created() { this.patata(); },
 };

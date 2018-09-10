@@ -8,6 +8,12 @@ const getAlmacenamiento = require('./src/getAlmacenamiento');
 const app = express();
 var cpu, memTotal, memLibre, memUsada, porcentajeMemLibre, porcentajeMemUsada, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
 app.use(morgan('tiny'))
+//esto es para entorno desarrollo y que axios pueda obtener los datos desde el servidor...
+app.use(function(req, res, next) { 
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.get('/', function (req, res) {
   //proximamente crear un objeto y devolverlo en la respuesta
 
@@ -41,13 +47,14 @@ app.get('/', function (req, res) {
     Porcentaje almacenamiento ${ datos[9] }. <br/>`);
   });
 });
-
 //ruta para obtener solo la informacion de la cpu.
 app.get('/cpu', function (req, res) {
+  
   getCpu.getCpu().then(function(respuesta){
     console.log('esto es respuesta:'+respuesta);
-    cpu = respuesta;
-    res.send(`Uso de la CPu: ${cpu}`); 
+    cpu = JSON.stringify(respuesta);
+    //res.send(`Uso de la CPu: ${cpu}`);
+    res.send(cpu)
   },function(err){
     console.log(err);
   });
