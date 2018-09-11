@@ -6,7 +6,8 @@ const getCpuTemperatura = require('./src/getCpuTemperatura');
 const getGpuTemperatura = require('./src/getGpuTemperatura');
 const getAlmacenamiento = require('./src/getAlmacenamiento');
 const app = express();
-var cpu, memTotal, memLibre, memUsada, porcentajeMemLibre, porcentajeMemUsada, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
+var cpu, gpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
+var memoria = { "memTotal": 0, "memLibre" : 0, "memUsada": 0, "porcentajeMemUsada": 0, "porcentajeMemLibre": 0 }
 app.use(morgan('tiny'))
 //esto es para entorno desarrollo y que axios pueda obtener los datos desde el servidor...
 app.use(function(req, res, next) { 
@@ -60,32 +61,39 @@ app.get('/cpu', function (req, res) {
   });
 });
 
+app.get('/gpu', function (req, res) {
+  
+  getGpuTemperatura.getGpuTemperatura().then(function(respuesta){
+    console.log('esto es respuesta:'+respuesta);
+    gpu = JSON.stringify(respuesta);
+    //res.send(`Uso de la CPu: ${cpu}`);
+    res.send(gpu)
+  },function(err){
+    console.log(err);
+  });
+});
+
 //ruta para obtener la informacion solo de la memoria
 app.get('/mem', function(req, res) {
- 
   Promise.all([getMem.getMemTotal(), getMem.getMemLibre()]).then(function(memResult){
-    memTotal = memResult[0]
-    memLibre = memResult[1]
-    memUsada = memTotal - memLibre;
-    porcentajeMemUsada = Math.round(memUsada*100/memTotal);
-    porcentajeMemLibre = 100 - porcentajeMemUsada;
-    res.send(` MemTotal: ${ memTotal } Gb. <br/>
-    MemLibre: ${ memLibre } Gb. <br/>
-    MemUsada: ${ memUsada }Gb. <br/>
-    Porcentaje MemLibre: ${ porcentajeMemLibre } %.<br/>
-    Porcentaje MemUsada: ${ porcentajeMemUsada } %.<br/>`)
+    memoria.memTotal = memResult[0]
+    memoria.memLibre = memResult[1]
+    memoria.memUsada = memoria.memTotal - memoria.memLibre;
+    memoria.porcentajeMemUsada = Math.round(memoria.memUsada*100/memoria.memTotal);
+    memoria.porcentajeMemLibre = 100 - memoria.porcentajeMemUsada;
+    res.send(JSON.stringify(memoria))
   });
 });
 
 //ruta para obtener la temperatura de la gpu y la cpu
-app.get('/temp',function(req,res) {
-  temperaturaCpu = getCpuTemperatura.getCpuTemperatura()
-  temperaturaGpu = getGpuTemperatura.getGpuTemperatura()
-  Promise.all([temperaturaCpu, temperaturaGpu]).then(function(temperaturas){
-    res.send(`Temperatura de la CPu: ${ temperaturas[0] } ºC. <br/>
-    Temperatura de la GPu: ${ temperaturas[1] } ºC. <br/>`)
-  });
-});
+// app.get('/temp',function(req,res) {
+//   temperaturaCpu = getCpuTemperatura.getCpuTemperatura()
+//   temperaturaGpu = getGpuTemperatura.getGpuTemperatura()
+//   Promise.all([temperaturaCpu, temperaturaGpu]).then(function(temperaturas){
+//     res.send(`Temperatura de la CPu: ${ temperaturas[0] } ºC. <br/>
+//     Temperatura de la GPu: ${ temperaturas[1] } ºC. <br/>`)
+//   });
+// });
 
 //ruta para obtener el almacenamiento
 app.get('/storage',function(req, res){
