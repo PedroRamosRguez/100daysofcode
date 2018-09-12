@@ -6,7 +6,7 @@ async function getMemTotal(){
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  return stdout;
+  return parseFloat(stdout).toFixed(3);
 }
 
 async function getMemLibre(){
@@ -14,7 +14,7 @@ async function getMemLibre(){
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  return stdout;
+  return parseFloat(stdout).toFixed(3);
 }
 
 module.exports = { getMemTotal, getMemLibre }

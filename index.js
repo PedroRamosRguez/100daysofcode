@@ -11,8 +11,8 @@ var memoria = { "memTotal": 0, "memLibre" : 0, "memUsada": 0, "porcentajeMemUsad
 app.use(morgan('tiny'))
 //esto es para entorno desarrollo y que axios pueda obtener los datos desde el servidor...
 app.use(function(req, res, next) { 
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 app.get('/', function (req, res) {
@@ -61,26 +61,36 @@ app.get('/cpu', function (req, res) {
   });
 });
 
-app.get('/gpu', function (req, res) {
+app.get('/tempgpu', function (req, res) {
   
   getGpuTemperatura.getGpuTemperatura().then(function(respuesta){
     console.log('esto es respuesta:'+respuesta);
-    gpu = JSON.stringify(respuesta);
+    temperaturaGpu = JSON.stringify(respuesta);
     //res.send(`Uso de la CPu: ${cpu}`);
-    res.send(gpu)
+    res.send(temperaturaGpu)
   },function(err){
     console.log(err);
   });
 });
-
+app.get('/tempcpu', function (req, res) {
+  
+  getCpuTemperatura.getCpuTemperatura().then(function(respuesta){
+    console.log('esto es respuesta:'+respuesta);
+    temperaturaCpu = JSON.stringify(respuesta);
+    res.send(temperaturaCpu)
+  },function(err){
+    console.log(err);
+  });
+});
 //ruta para obtener la informacion solo de la memoria
 app.get('/mem', function(req, res) {
   Promise.all([getMem.getMemTotal(), getMem.getMemLibre()]).then(function(memResult){
     memoria.memTotal = memResult[0]
     memoria.memLibre = memResult[1]
-    memoria.memUsada = memoria.memTotal - memoria.memLibre;
+    memoria.memUsada = parseFloat(memoria.memTotal - memoria.memLibre).toFixed(3);
     memoria.porcentajeMemUsada = Math.round(memoria.memUsada*100/memoria.memTotal);
     memoria.porcentajeMemLibre = 100 - memoria.porcentajeMemUsada;
+    console.log(JSON.stringify(memoria))
     res.send(JSON.stringify(memoria))
   });
 });
