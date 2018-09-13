@@ -8,6 +8,7 @@ const getAlmacenamiento = require('./src/getAlmacenamiento');
 const app = express();
 var cpu, gpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
 var memoria = { "memTotal": 0, "memLibre" : 0, "memUsada": 0, "porcentajeMemUsada": 0, "porcentajeMemLibre": 0 }
+var storage = []
 app.use(morgan('tiny'))
 //esto es para entorno desarrollo y que axios pueda obtener los datos desde el servidor...
 app.use(function(req, res, next) { 
@@ -107,18 +108,25 @@ app.get('/mem', function(req, res) {
 
 //ruta para obtener el almacenamiento
 app.get('/storage',function(req, res){
-      sistFichero = getAlmacenamiento.getSistFichero()
-      tamanio = getAlmacenamiento.getTamanio()
-      espacioLibre = getAlmacenamiento.getEspacioLibre()
-      espacioUsado = getAlmacenamiento.getEspacioUsado()
-      porcentajeAlmacenamiento = getAlmacenamiento.getPorcentaje()
-  Promise.all([sistFichero, tamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento]).then(function(storage){
-    res.send(`Sistema de ficheros: ${ storage[0]} <br/>
-      Tamaño: ${ storage[1] }. <br/>
-      Espacio Libre: ${ storage[2] }. <br/>
-      Espacio usado: ${ storage[3]}. <br/>
-      Porcentaje almacenamiento ${ storage[4] }. <br/>`);  
-  })
+    storage = []
+    sistFichero = getAlmacenamiento.getSistFichero()
+    tamanio = getAlmacenamiento.getTamanio()
+    espacioLibre = getAlmacenamiento.getEspacioLibre()
+    espacioUsado = getAlmacenamiento.getEspacioUsado()
+    porcentajeAlmacenamiento = getAlmacenamiento.getPorcentaje()
+    Promise.all([sistFichero, tamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento]).then(function(storageItem){
+      for(var i=0;i<storageItem[0].length; i++){
+        console.log('-->'+storageItem[0][i]);
+        storage.push({"sistFicheros":storageItem[0][i], 
+                      "tamanio":storageItem[1][i].slice(0, -1),
+                      "espacioLibre":storageItem[2][i].slice(0, -1),
+                      "espacioUsado":storageItem[3][i].slice(0, -1),
+                      "porcentaje": storageItem[4][i].slice(0, -1)}
+                    )
+        console.log(storage);
+      }
+      res.send(JSON.stringify(storage))
+   })
 });
 
 app.listen(3000, function () {

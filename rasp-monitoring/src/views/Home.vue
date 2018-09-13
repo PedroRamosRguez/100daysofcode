@@ -10,6 +10,28 @@
     <p>Cantidad de memoria RAM usada:{{memUsada}}</p>
     <p>Cantidad de memoria RAM usada en Porcentaje:{{porcentajeMemLibre}} %</p>
     <p>Cantidad de memoria RAM usada en porcentaje:{{porcentajeMemUsada}} %</p>
+    <table class="table">
+      <thead>
+        <tr>
+	  <th scope = "col">Sistema Ficheros</th>
+	  <th scope = "col">Tamaño</th>
+	  <th scope = "col">Espacio Libre</th>
+	  <th scope = "col">Espacio Usado</th>
+	  <th scope = "col">Porcentaje</th>
+        </tr>
+      </thead>
+      <tbody>
+       <template v-for="item in storage">
+         <tr>
+           <td scope="row">{{item.sistFicheros}}</td>
+           <td scope="row">{{item.tamanio}}</td>
+           <td scope="row">{{item.espacioLibre}}</td>
+           <td scope="row">{{item.espacioUsado}}</td>
+           <td scope="row">{{item.porcentaje}}</td>
+         </tr>
+       </template>
+      </tbody>
+    </table>
   </div>
 
 </template>
@@ -29,15 +51,14 @@ export default {
       memUsada: 0,
       porcentajeMemLibre: 0,
       porcentajeMemUsada: 0,
-      // espacioLibre: 0,
-      // espacioUsado: 0,
+      storage : [],
     };
   },
   methods: {
     getCpu() {
       const self = this;
       setInterval(() => {
-        axios.get('http://localhost:3000/cpu')
+        axios.get('http://192.168.1.42:3000/cpu')
           .then((response) => {
             self.usoCpu = response.data;
           })
@@ -52,7 +73,7 @@ export default {
     getCpuTemperature() {
       const self = this;
       setInterval(() => {
-        axios.get('http://localhost:3000/tempcpu')
+        axios.get('http://192.168.1.42:3000/tempcpu')
           .then((response) => {
             self.temperaturaCpu = response.data;
           })
@@ -67,7 +88,7 @@ export default {
     getGpuTemperature() {
       const self = this;
       setInterval(() => {
-        axios.get('http://localhost:3000/tempgpu')
+        axios.get('http://192.168.1.42:3000/tempgpu')
           .then((response) => {
             self.temperaturaGpu = response.data;
           })
@@ -82,7 +103,7 @@ export default {
     getMem() {
       const self = this;
       setInterval(() => {
-        axios.get('http://localhost:3000/mem')
+        axios.get('http://192.168.1.42:3000/mem')
           .then((response) => {
             self.memTotal = response.data.memTotal;
             self.memLibre = response.data.memLibre;
@@ -98,12 +119,31 @@ export default {
           });
       }, 5000);
     },
+    getStorage() {
+      const self = this;
+      setInterval(() => {
+	//self.storage = []
+        axios.get('http://192.168.1.42:3000/storage')
+          .then((response) => {
+            console.log(response);
+            console.log(response.data);
+	    self.storage = response.data
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .then(() => {
+            console.log('siempre se ejecuta esto...');
+          });
+      }, 5000);
+    },
   },
   created() {
     this.getCpu();
     this.getCpuTemperature();
     this.getGpuTemperature();
     this.getMem();
+    this.getStorage();
   },
 };
 </script>
