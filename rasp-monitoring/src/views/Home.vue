@@ -7,22 +7,19 @@
         <div class="col-sm-4">
           <div class="card">
             <div class="card-header card-primary no-margin">Uso de la Cpu</div>
-            <div class="card-block">{{usoCpu}}</div>
-            <img src="https://camo.githubusercontent.com/8299979afd2e8a2fce33e9d68e89d2f1c3e5ecf3/687474703a2f2f63646e2e6d616b657573656f662e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031322f30322f7261737062657272795f70695f6c6f676f2e706e673f366632356337">
+            <div class="card-block"><line-chart :data="usoCpu" :download="true" download="Uso Cpu"></line-chart></div>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Cpu</div>
-            <div class="card-block">{{temperaturaCpu}}</div>
-            <img src="https://camo.githubusercontent.com/8299979afd2e8a2fce33e9d68e89d2f1c3e5ecf3/687474703a2f2f63646e2e6d616b657573656f662e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031322f30322f7261737062657272795f70695f6c6f676f2e706e673f366632356337">
+            <div class="card-block"><line-chart :data="temperaturaCpu" :download="true" download="Temperatura Cpu"></line-chart></div>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Gpu</div>
-            <div class="card blockl">{{temperaturaGpu}}</div>
-            <img src="https://camo.githubusercontent.com/8299979afd2e8a2fce33e9d68e89d2f1c3e5ecf3/687474703a2f2f63646e2e6d616b657573656f662e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031322f30322f7261737062657272795f70695f6c6f676f2e706e673f366632356337">
+            <div class="card blockl"><line-chart :data="temperaturaGpu" :download="true" download="Temperatura Gpu"></line-chart></div>
           </div>
         </div>
       </div>
@@ -107,9 +104,9 @@ export default {
   name: 'home',
   data() {
     return {
-      usoCpu: 0,
-      temperaturaCpu: 0,
-      temperaturaGpu: 0,
+      usoCpu: [],
+      temperaturaCpu: [],
+      temperaturaGpu: [],
       memTotal: 0,
       memLibre: 0,
       memUsada: 0,
@@ -124,7 +121,8 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/cpu')
           .then((response) => {
-            self.usoCpu = response.data;
+            const value = [new Date(), response.data];
+            self.usoCpu.push(value);
           })
           .catch((error) => {
             console.log(error);
@@ -139,7 +137,8 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/tempcpu')
           .then((response) => {
-            self.temperaturaCpu = response.data;
+            const value = [new Date(), response.data];
+            self.temperaturaCpu.push(value);
           })
           .catch((error) => {
             console.log(error);
@@ -154,7 +153,8 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/tempgpu')
           .then((response) => {
-            self.temperaturaGpu = response.data;
+            const value = [new Date(), response.data];
+            self.temperaturaGpu.push(value);
           })
           .catch((error) => {
             console.log(error);
@@ -188,8 +188,6 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/storage')
           .then((response) => {
-            console.log(response);
-            console.log(response.data);
             self.storage = response.data;
           })
           .catch((error) => {
