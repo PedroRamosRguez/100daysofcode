@@ -6,7 +6,7 @@ const getCpuTemperatura = require('./src/getCpuTemperatura');
 const getGpuTemperatura = require('./src/getGpuTemperatura');
 const getAlmacenamiento = require('./src/getAlmacenamiento');
 const app = express();
-var cpu, gpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
+var cpu, gpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, maxTamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
 var memoria = { "memTotal": 0, "memLibre" : 0, "memUsada": 0, "porcentajeMemUsada": 0, "porcentajeMemLibre": 0 }
 var storage = []
 app.use(morgan('tiny'))
@@ -26,10 +26,11 @@ app.get('/', function (req, res) {
   temperaturaGpu = getGpuTemperatura.getGpuTemperatura()
   sistFichero = getAlmacenamiento.getSistFichero()
   tamanio = getAlmacenamiento.getTamanio()
+  maxTamanio = getAlmacenamiento.getMaxTamanio()
   espacioLibre = getAlmacenamiento.getEspacioLibre()
   espacioUsado = getAlmacenamiento.getEspacioUsado()
   porcentajeAlmacenamiento = getAlmacenamiento.getPorcentaje()
-  Promise.all([memTotal, memLibre, cpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento]).then(function(datos){
+  Promise.all([memTotal, memLibre, cpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, maxTamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento]).then(function(datos){
     memUsada = datos[0] - datos[1];
     porcentajeMemUsada = Math.round(memUsada*100/datos[0]);
     porcentajeMemLibre = 100 - porcentajeMemUsada;
@@ -44,9 +45,10 @@ app.get('/', function (req, res) {
     Temperatura de la GPu: ${ datos[4] } ºC. <br/>
     Sistema de ficheros: ${ datos[5] } <br/>
     Tamaño: ${ datos[6] }. <br/>
-    Espacio Libre: ${  datos[7]}. <br/>
-    Espacio usado: ${ datos[8] }. <br/>
-    Porcentaje almacenamiento ${ datos[9] }. <br/>`);
+    Maximo tamaño: ${ datos[7] }. <br/>
+    Espacio Libre: ${  datos[8]}. <br/>
+    Espacio usado: ${ datos[9] }. <br/>
+    Porcentaje almacenamiento ${ datos[10] }. <br/>`);
   });
 });
 //ruta para obtener solo la informacion de la cpu.
@@ -111,20 +113,23 @@ app.get('/storage',function(req, res){
     storage = []
     sistFichero = getAlmacenamiento.getSistFichero()
     tamanio = getAlmacenamiento.getTamanio()
+    maxTamanio = getAlmacenamiento.getMaxTamanio()
     espacioLibre = getAlmacenamiento.getEspacioLibre()
     espacioUsado = getAlmacenamiento.getEspacioUsado()
     porcentajeAlmacenamiento = getAlmacenamiento.getPorcentaje()
-    Promise.all([sistFichero, tamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento]).then(function(storageItem){
+    var sdCardUsed=getAlmacenamiento.getTotalUsado();
+    var sdCardFree=getAlmacenamiento.getTotalLibre();
+    var percentajeSdCard=0;
+    Promise.all([sistFichero, tamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento, maxTamanio,sdCardUsed, sdCardFree]).then(function(storageItem){
       for(var i=0;i<storageItem[0].length; i++){
-        console.log('-->'+storageItem[0][i]);
         storage.push({"sistFicheros":storageItem[0][i], 
                       "tamanio":storageItem[1][i].slice(0, -1),
                       "espacioLibre":storageItem[2][i].slice(0, -1),
                       "espacioUsado":storageItem[3][i].slice(0, -1),
                       "porcentaje": storageItem[4][i].slice(0, -1)}
                     )
-        console.log(storage);
       }
+      storage.push({"sistFicheros":"SD Card","tamanio":storageItem[5],"espacioLibre":parseInt(storageItem[7]),"espacioUsado":parseInt(storageItem[6]),"porcentaje":(storageItem[6]*100)/storageItem[2]});
       res.send(JSON.stringify(storage))
    })
 });

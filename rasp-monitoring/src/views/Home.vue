@@ -54,6 +54,7 @@
       <br/>
       <br/>
       <div class="row">
+        {{storage}}
         <template v-for="item in storage">
           <div class = "col-sm-3">
             <div class="card">
@@ -85,6 +86,7 @@ export default {
       porcentajeMemLibre: 0,
       porcentajeMemUsada: 0,
       storage: [],
+      maxTamanio:0,
     };
   },
   methods: {
