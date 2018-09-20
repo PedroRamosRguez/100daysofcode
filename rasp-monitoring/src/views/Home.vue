@@ -1,8 +1,6 @@
 <template>
   <div class="container-fluid">
     <div class="home">
-      <!-- <img alt="Vue logo" src="../assets/logo.png"><br/>
-      Esto es la  pagina de inicio... -->
       <div class = "row">
         <div class="col-sm-4">
           <div class="card">
@@ -54,7 +52,6 @@
       <br/>
       <br/>
       <div class="row">
-        {{storage}}
         <template v-for="item in storage">
           <div class = "col-sm-3">
             <div class="card">

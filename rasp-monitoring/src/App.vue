@@ -10,7 +10,7 @@
           <div class="collapse navbar-collapse sidebar">
             <ul class="flex-column navbar-nav w-100 justify-content-between">
               <li class="nav-item">
-                <router-link class="nav-link" to="/cpu"><i class="fas fa-microchip fa-fw"></i> <span class=""> Cpu</span></router-link>
+                <router-link class="nav-link mx-auto" to="/cpu"><i class="fas fa-microchip fa-fw"></i> <span class=""> Cpu</span></router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/temp" data-toggle="collapse" data-target="#m1" aria-expanded="false">
@@ -27,15 +27,7 @@
           </div>
         </nav>
       </aside>
-      <main class="col bg-faded py-3">
-        <!--<div id="nav">
-          <router-link to="/">Home</router-link> |
-          <router-link to="/cpu">Cpu</router-link>|
-          <router-link to="/mem">Memory</router-link>|
-          <router-link to="/storage">Storage</router-link>|
-          <router-link to="/temp">Temperature</router-link>|
-          <router-link to="/about">About</router-link>
-        </div>-->
+      <main class="col">
         <router-view/>
       </main>
     </div>

@@ -9,11 +9,6 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      methods: {
-        patata() {
-          console.log('soy el methodo que se ejecutaen main.js');
-        },
-      },
       component: Home,
     },
     {
