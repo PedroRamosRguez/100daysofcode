@@ -5,6 +5,7 @@ const getCpu = require('./src/getCpu');
 const getCpuTemperatura = require('./src/getCpuTemperatura');
 const getGpuTemperatura = require('./src/getGpuTemperatura');
 const getAlmacenamiento = require('./src/getAlmacenamiento');
+const getTreeDirectory = require('./src/tree');
 const app = express();
 var cpu, gpu, temperaturaCpu, temperaturaGpu, sistFichero, tamanio, maxTamanio, espacioUsado, espacioLibre, porcentajeAlmacenamiento;
 var memoria = { "memTotal": 0, "memLibre" : 0, "memUsada": 0, "porcentajeMemUsada": 0, "porcentajeMemLibre": 0 }
@@ -108,6 +109,10 @@ app.get('/mem', function(req, res) {
 //   });
 // });
 
+app.get('/tree',function(req, res){
+  directorios = getTreeDirectory.getTreeDirectory()
+  res.send(JSON.stringify(directorios));
+});
 //ruta para obtener el almacenamiento
 app.get('/storage',function(req, res){
     storage = []
