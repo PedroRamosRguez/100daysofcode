@@ -23,6 +23,9 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/storage"><i class="fas fa-hdd fa-fw"></i> <span class="">  Almacenamiento</span></router-link>
               </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/tree"><i class="fas fa-hdd fa-fw"></i> <span class="">  Directorios</span></router-link>
+              </li>
             </ul>
           </div>
         </nav>

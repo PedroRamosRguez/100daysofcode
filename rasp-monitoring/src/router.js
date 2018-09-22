@@ -39,5 +39,10 @@ export default new Router({
       name: 'storage',
       component: () => import(/* webpackChunkName: "about" */ './views/Storage.vue'),
     },
+    {
+      path: '/tree',
+      name: 'tree',
+      component: () => import(/* webpackChunkName: "about" */ './views/Tree.vue'),
+    },
   ],
 });
