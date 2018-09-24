@@ -3,7 +3,9 @@ import Vue from 'vue';
 import './plugins/bootstrap-vue';
 import App from './App.vue';
 import router from './router';
-
+import slVueTree from 'sl-vue-tree';
+//import 'sl-vue-tree/dist/sl-vue-tree-dark.css';
+Vue.component('sl-vue-tree',slVueTree);
 Vue.config.productionTip = false;
 Vue.use(VueChartkick);
 new Vue({
