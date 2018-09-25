@@ -1,8 +1,7 @@
 <template>
   <div class="container-fluid">
       <div class = "row">
-        {{ directorios }}
-        <sl-vue-tree v-model="directorios"/>
+        <sl-vue-tree v-model="patata"/>
       </div>
   </div>
 
@@ -15,17 +14,6 @@ export default {
   data() {
     return {
       directorios: [],
-      nodes: [
-               {title: 'Item1', isLeaf: true},
-	       {title: 'Item2', isLeaf: true, data: { visible: false }},
-	       {title: 'Folder1'},
-	       {
-	         title: 'Folder2', isExpanded: true, children: [
-	           {title: 'Item3', isLeaf: true},
-	           {title: 'Item4', isLeaf: true}
-	         ]
-	       }
-             ],
     };
   },
   methods: {
@@ -42,44 +30,33 @@ export default {
         })
         .then(() => {
           console.log('SIEMPRE SSE EJECUTA ESTO..');
-          this.parseDirectories(self.directorios);
-          /*if(self.directorios!=null){
-            for(let i=0;i<self.directorios.length;i++){
-              const elemento = self.directorios[i];
-              self.directorios[i].title = elemento.name;
-	      if(elemento.type === 'file'){
-                //añadir como nodo hoja...
-                self.directorios[i].isLeaf=true;
-              }
-              console.log(elemento)
-              if(elemento.children !=null){
-                if(elemento.children.length >0){
-                  this.parseDirectories(self.directorios);
-                }
-              }
-            }
-          } */ 
         });
     },
-    parseDirectories(directorios){
-      console.log('llame al parser');
-      const self = this;
-      //console.log(directorios);
-      if(directorios!=null){
-        for(let i=0;i<directorios.length;i++){
-          const elemento = directorios[i];
-          //console.log(elemento);
-          self.directorios[i].title = elemento.name;
-	  if(elemento.type === 'file'){
-            //añadir como nodo hoja...
-            self.directorios[i].isLeaf=true;
+    parseDirectories(directorio){
+      var final = []
+      var self = this
+      if(directorio != null){
+        directorio.forEach((item)=>{
+	  item.title = item.name
+	  if(item.type === 'file'){
+            item.isLeaf=true;
           }
-        }
+          final.push(item);
+          if(typeof item.children !== 'undefined' && item.children.length!=0){
+            final.concat(self.parseDirectories(item.children));
+          }  
+        })
       }
-    },
+      return final;
+    }
   },
   created() {
     this.getTreeDirectory();
   },
+  computed: {
+    patata : function(){
+      return this.parseDirectories(this.directorios);  
+    }
+  }
 };
 </script>
