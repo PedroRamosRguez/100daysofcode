@@ -99,18 +99,16 @@ app.get('/mem', function(req, res) {
   });
 });
 
-//ruta para obtener la temperatura de la gpu y la cpu
-// app.get('/temp',function(req,res) {
-//   temperaturaCpu = getCpuTemperatura.getCpuTemperatura()
-//   temperaturaGpu = getGpuTemperatura.getGpuTemperatura()
-//   Promise.all([temperaturaCpu, temperaturaGpu]).then(function(temperaturas){
-//     res.send(`Temperatura de la CPu: ${ temperaturas[0] } ºC. <br/>
-//     Temperatura de la GPu: ${ temperaturas[1] } ºC. <br/>`)
-//   });
-// });
-
+//ruta para obtener el arbol de directorios de documentos
 app.get('/tree',function(req, res){
-  directorios = getTreeDirectory.getTreeDirectory()
+  directorios = [getTreeDirectory.getTreeDirectory()]
+  directorios.forEach((item)=>{
+    item.title = item.name
+    if(item.type === 'file'){
+      item.extension = (item.name.split('.').slice(-1)).toString();
+    }
+  });
+  directorios = directorios[0]
   res.send(JSON.stringify(directorios));
 });
 //ruta para obtener el almacenamiento
