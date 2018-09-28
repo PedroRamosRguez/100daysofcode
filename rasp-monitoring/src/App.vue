@@ -30,7 +30,7 @@
           </div>
         </nav>
       </aside>
-      <main class="col">
+      <main class="col" style="background-color: #09161D;">
         <router-view/>
       </main>
     </div>
