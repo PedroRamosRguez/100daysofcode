@@ -22,27 +22,27 @@ export default new Router({
     {
       path: '/cpu',
       name: 'cpu',
-      component: () => import(/* webpackChunkName: "about" */ './views/Cpu.vue'),
+      component: () => import(/* webpackChunkName: "cpu" */ './views/Cpu.vue'),
     },
     {
       path: '/mem',
       name: 'mem',
-      component: () => import(/* webpackChunkName: "about" */ './views/Memory.vue'),
+      component: () => import(/* webpackChunkName: "memory" */ './views/Memory.vue'),
     },
     {
       path: '/temp',
       name: 'temp',
-      component: () => import(/* webpackChunkName: "about" */ './views/Temperature.vue'),
+      component: () => import(/* webpackChunkName: "temperature" */ './views/Temperature.vue'),
     },
     {
       path: '/storage',
       name: 'storage',
-      component: () => import(/* webpackChunkName: "about" */ './views/Storage.vue'),
+      component: () => import(/* webpackChunkName: "storage" */ './views/Storage.vue'),
     },
     {
       path: '/tree',
       name: 'tree',
-      component: () => import(/* webpackChunkName: "about" */ './views/Tree.vue'),
+      component: () => import(/* webpackChunkName: "tree" */ './views/Tree.vue'),
     },
   ],
 });

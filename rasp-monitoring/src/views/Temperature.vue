@@ -1,14 +1,15 @@
 <template>
   <div class="container-fluid">
+    <br/>
     <div class="temperature">
       <div class = "row">
-        <div class="col-sm-4">
+        <div class="col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Cpu</div>
             <div class="card-block"><line-chart :data="temperaturaCpu" :download="true" download="Temperatura Cpu"></line-chart></div>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Gpu</div>
             <div class="card blockl"><line-chart :data="temperaturaGpu" :download="true" download="Temperatura Gpu"></line-chart></div>

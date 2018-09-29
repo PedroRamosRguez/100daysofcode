@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="row wrapper">
-      <aside class="col-12 col-sm-2 bg-dark">
+      <aside class="col-sm-2 bg-dark">
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark align-items-start flex-sm-column flex-row">
           <router-link class="navbar-brand mx-auto" to="/"><i class="fab fa-vuejs fa-fw"></i> RaspMonitoring</router-link>
           <a href class="navbar-toggler" data-toggle="collapse" data-target=".sidebar">
@@ -74,5 +74,8 @@ main {
 }
 .chart{
     background-color: #343A40;
+}
+html, body {
+  overflow-x: hidden;
 }
 </style>

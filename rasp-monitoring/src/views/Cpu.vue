@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+      <br/>
       <div class = "row">
         <div class="col-sm-6 mx-auto">
           <div class="card">

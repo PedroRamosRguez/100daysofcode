@@ -1,23 +1,24 @@
 <template>
   <div class="container-fluid">
+    <br/>
     <div class="memory">
       <div class = "row">
-        <div class = "col-sm-6 mx-auto">
+        <div class = "col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Memoria RAM (Gb)</div>
             <div class="card blockl memLibre">
-              <pie-chart :data="[['Mem. Libre',memLibre],['Mem.Usada',memUsada]]"/>
+              <pie-chart :data="[['Mem. Libre',memLibre],['Mem.Usada',memUsada]]" :library="library" :colors="['#66ff66','#ff3333']"/>
             </div>
             Cantidad Memoria Ram Total {{memTotal}}<br/>
             Cantidad Memoria Ram Libre {{memLibre}}<br/>
             Cantidad Memoria Ram Usada {{memUsada}}<br/>
           </div>
         </div>
-        <div class = "col-sm-6 mx-auto">
+        <div class = "col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Porcentaje memoria RAM</div>
             <div class="card blockl">
-              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],['Mem.Usada',porcentajeMemUsada]]" :colors="['#AF4C37','#0B76CA']"/>
+              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],['Mem.Usada',porcentajeMemUsada]]" :library="library" :colors="['#66ff66','#ac3973']"/>
             </div>
             Porcentaje Memoria Ram Libre {{porcentajeMemLibre}} %<br/>
             <br/>
@@ -41,6 +42,14 @@ export default {
       memUsada: 0,
       porcentajeMemLibre: 0,
       porcentajeMemUsada: 0,
+      library:{
+        responsive:true,
+        cutoutPercentage: 75,
+        pieceLabel: {
+          mode: "value",
+          fontColor: '#060666',
+        }
+      },
     };
   },
   methods: {
@@ -61,7 +70,7 @@ export default {
           .then(() => {
             console.log('siempre se ejecuta esto...');
           });
-      }, 5000);
+      }, 3000);
     },
   },
   created() {
