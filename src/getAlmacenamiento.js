@@ -86,4 +86,13 @@ async function getPorcentaje(){
   return porcentajeUsado
 }
 
-module.exports = { getSistFichero, getTamanio, getMaxTamanio, getEspacioUsado, getTotalUsado, getEspacioLibre, getTotalLibre, getPorcentaje}
+module.exports = {
+                   getSistFichero,
+                   getTamanio,
+                   getMaxTamanio,
+                   getEspacioUsado,
+                   getTotalUsado,
+                   getEspacioLibre,
+                   getTotalLibre,
+                   getPorcentaje
+                 }

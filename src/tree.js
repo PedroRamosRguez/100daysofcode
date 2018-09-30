@@ -5,11 +5,9 @@ async function getTreeDirectory(){
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  console.log(typeof(stdout))
-  console.log('soy getTree');
-  console.log(`stdout : ${stdout}`);
   return stdout;
 }
+
 module.exports = { getTreeDirectory };*/
 
 const PATH = require('path')
