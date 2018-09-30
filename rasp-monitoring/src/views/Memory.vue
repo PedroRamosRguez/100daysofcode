@@ -7,7 +7,10 @@
           <div class="card">
             <div class="card-header card-primary no-margin">Memoria RAM (Gb)</div>
             <div class="card blockl memLibre">
-              <pie-chart :data="[['Mem. Libre',memLibre],['Mem.Usada',memUsada]]" :library="library" :colors="['#66ff66','#ff3333']"/>
+              <pie-chart :data="[['Mem. Libre',memLibre],
+                                 ['Mem.Usada',memUsada]]"
+                         :library="library"
+                         :colors="['#66ff66','#ff3333']"/>
             </div>
             Cantidad Memoria Ram Total {{memTotal}}<br/>
             Cantidad Memoria Ram Libre {{memLibre}}<br/>
@@ -18,7 +21,10 @@
           <div class="card">
             <div class="card-header card-primary no-margin">Porcentaje memoria RAM</div>
             <div class="card blockl">
-              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],['Mem.Usada',porcentajeMemUsada]]" :library="library" :colors="['#66ff66','#ac3973']"/>
+              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],
+                                ['Mem.Usada',porcentajeMemUsada]]"
+                         :library="library"
+                         :colors="['#66ff66','#ac3973']"/>
             </div>
             Porcentaje Memoria Ram Libre {{porcentajeMemLibre}} %<br/>
             <br/>
@@ -42,13 +48,13 @@ export default {
       memUsada: 0,
       porcentajeMemLibre: 0,
       porcentajeMemUsada: 0,
-      library:{
-        responsive:true,
+      library: {
+        responsive: true,
         cutoutPercentage: 75,
         pieceLabel: {
-          mode: "value",
+          mode: 'value',
           fontColor: '#060666',
-        }
+        },
       },
     };
   },

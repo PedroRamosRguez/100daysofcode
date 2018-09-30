@@ -4,11 +4,14 @@
     <div class="storage">
       <div class="row">
         <template v-for="item in storage">
-          <div class = "col-sm-3">
+          <div class = "col-sm-3" :key="item.sistFicheros">
             <div class="card">
               <div class="card-header card-primary no-margin">{{item.sistFicheros}}</div>
               <div class="card blockl">
-                <pie-chart :data="[['Espacio Usado (Gb)',item.espacioUsado],['Espacio Libre (Gb)',item.espacioLibre]]" :library="library" :colors="['#ff4d4d','#80ff80']"/>
+                <pie-chart :data="[['Espacio Usado (Gb)',item.espacioUsado],
+                                   ['Espacio Libre (Gb)',item.espacioLibre]]"
+                           :library="library"
+                           :colors="['#ff4d4d','#80ff80']"/>
               </div>
             </div>
           </div>
@@ -26,14 +29,14 @@ export default {
   data() {
     return {
       storage: [],
-      maxTamanio:0,
-      library:{
-        responsive:true,
+      maxTamanio: 0,
+      library: {
+        responsive: true,
         cutoutPercentage: 75,
         pieceLabel: {
-          mode: "value",
+          mode: 'value',
           fontColor: '#060666',
-        }
+        },
       },
     };
   },

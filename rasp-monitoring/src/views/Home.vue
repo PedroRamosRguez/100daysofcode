@@ -6,7 +6,13 @@
         <div class="col-sm-6 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Uso de la Cpu</div>
-            <div class="card-block"><line-chart :data="usoCpu" :library="library" :download="true" download="Uso Cpu"></line-chart></div>
+            <div class="card-block">
+              <line-chart :data="usoCpu"
+                          :library="library"
+                          :download="true"
+                          download="Uso Cpu">
+              </line-chart>
+            </div>
           </div>
         </div>
       </div>
@@ -17,13 +23,23 @@
         <div class="col-sm-5 offset-sm-1">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Cpu</div>
-            <div class="card-block"><line-chart :data="temperaturaCpu" :download="true" download="Temperatura Cpu"></line-chart></div>
+            <div class="card-block">
+              <line-chart :data="temperaturaCpu"
+                          :download="true"
+                          download="Temperatura Cpu">
+              </line-chart>
+            </div>
           </div>
         </div>
         <div class="col-sm-5 ">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Gpu</div>
-            <div class="card blockl"><line-chart :data="temperaturaGpu" :download="true" download="Temperatura Gpu"></line-chart></div>
+            <div class="card blockl">
+              <line-chart :data="temperaturaGpu"
+                          :download="true"
+                          download="Temperatura Gpu">
+              </line-chart>
+            </div>
           </div>
         </div>
       </div>
@@ -35,7 +51,10 @@
           <div class="card">
             <div class="card-header card-primary no-margin">Memoria RAM (Gb)</div>
             <div class="card blockl memLibre">
-              <pie-chart :data="[['Mem. Libre',memLibre],['Mem.Usada',memUsada]]" :library="library" :colors="['#66ff66','#ff3333']"/>
+              <pie-chart :data="[['Mem. Libre',memLibre],
+                         ['Mem.Usada',memUsada]]"
+                         :library="library" :colors="['#66ff66','#ff3333']"
+                         :download="true" download="Ram Info"/>
             </div>
             Cantidad Memoria Ram Total {{memTotal}}<br/>
             Cantidad Memoria Ram Libre {{memLibre}}<br/>
@@ -46,7 +65,9 @@
           <div class="card">
             <div class="card-header card-primary no-margin">Porcentaje memoria RAM</div>
             <div class="card blockl">
-              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],['Mem.Usada',porcentajeMemUsada]]" :library="library" :colors="['#66ff66','#ac3973']"/>
+              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],
+                         ['Mem.Usada',porcentajeMemUsada]]"
+                         :library="library" :colors="['#66ff66','#ac3973']"/>
             </div>
             Porcentaje Memoria Ram Libre {{porcentajeMemLibre}} %<br/>
             <br/>
@@ -59,11 +80,13 @@
       <br/>
       <div class="row">
         <template v-for="item in storage">
-          <div class = "col-sm-3">
+          <div class = "col-sm-3" :key="item.sistFicheros">
             <div class="card">
               <div class="card-header card-primary no-margin">{{item.sistFicheros}}</div>
               <div class="card blockl">
-                <pie-chart :data="[['Espacio Usado (Gb)',item.espacioUsado],['Espacio Libre (Gb)',item.espacioLibre]]" :library="library" :colors="['#ff4d4d','#80ff80']"/>
+                <pie-chart :data="[['Espacio Usado (Gb)',item.espacioUsado],
+                           ['Espacio Libre (Gb)',item.espacioLibre]]"
+                           :library="library" :colors="['#ff4d4d','#80ff80']"/>
               </div>
             </div>
           </div>
@@ -89,14 +112,14 @@ export default {
       porcentajeMemLibre: 0,
       porcentajeMemUsada: 0,
       storage: [],
-      maxTamanio:0,
-      library:{
-        responsive:true,
+      maxTamanio: 0,
+      library: {
+        responsive: true,
         cutoutPercentage: 75,
         pieceLabel: {
-          mode: "value",
+          mode: 'value',
           fontColor: '#060666',
-        }
+        },
       },
     };
   },
@@ -202,5 +225,3 @@ library: {
                 fontColor: '#060666',
             }
         },
-
-

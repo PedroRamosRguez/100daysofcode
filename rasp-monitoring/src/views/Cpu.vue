@@ -5,7 +5,12 @@
         <div class="col-sm-6 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Uso de la Cpu</div>
-            <div class="card-block"><line-chart :data="usoCpu" :download="true" download="Uso Cpu"></line-chart></div>
+            <div class="card-block">
+              <line-chart :data="usoCpu"
+                          :download="true"
+                          download="Uso Cpu">
+              </line-chart>
+            </div>
           </div>
         </div>
       </div>
