@@ -94,3 +94,10 @@ export default {
   }
 };
 </script>
+<style>
+body {
+background-color: #09161D;
+}
+
+
+</style>

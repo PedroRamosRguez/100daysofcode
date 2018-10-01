@@ -115,10 +115,12 @@ export default {
       maxTamanio: 0,
       library: {
         responsive: true,
-        cutoutPercentage: 75,
+        cutoutPercentage: 55,
         pieceLabel: {
-          mode: 'value',
-          fontColor: '#060666',
+            mode: 'value',
+            fontColor: 'blue',
+            fontSize: 34,
+            fontStyle: 'bold',
         },
       },
     };
@@ -216,12 +218,3 @@ export default {
   },
 };
 </script>
-
-library: {
-            responsive:true,
-            cutoutPercentage: 45,
-            pieceLabel: {
-                mode: "percentaje",
-                fontColor: '#060666',
-            }
-        },
