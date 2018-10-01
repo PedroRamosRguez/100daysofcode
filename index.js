@@ -7,13 +7,13 @@ const getGpuTemperatura = require('./src/getGpuTemperatura');
 const getAlmacenamiento = require('./src/getAlmacenamiento');
 const getTreeDirectory = require('./src/tree');
 const app = express();
-var sistFichero,
+let sistFichero,
     tamanio,
     maxTamanio,
     espacioUsado,
     espacioLibre,
     porcentajeAlmacenamiento;
-var memoria = { 
+let memoria = { 
   'memTotal': 0,
   'memLibre': 0,
   'memUsada': 0,
@@ -23,14 +23,14 @@ var memoria = {
 app.use(morgan('tiny'))
 
 //esto es para entorno desarrollo y que axios pueda obtener los datos desde el servidor...
-app.use(function(req, res, next) { 
+app.use((req, res, next) => { 
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
 //ruta para obtener solo la informacion de la cpu.
-app.get('/cpu', function (req, res) {
+app.get('/cpu', (req, res) => {
   getCpu.getCpu().then(function(respuesta){
     res.send(JSON.stringify(respuesta))
   },function(err){
@@ -39,7 +39,7 @@ app.get('/cpu', function (req, res) {
 });
 
 //ruta para obtener la información sobre la temperatura de la gpu
-app.get('/tempgpu', function (req, res) {
+app.get('/tempgpu', (req, res) => {
   getGpuTemperatura.getGpuTemperatura().then(function(respuesta){
     res.send(JSON.stringify(respuesta))
   },function(err){
@@ -48,7 +48,7 @@ app.get('/tempgpu', function (req, res) {
 });
 
 //ruta para obtener la información sobre la temperatura de la cpu
-app.get('/tempcpu', function (req, res) {
+app.get('/tempcpu', (req, res) => {
   getCpuTemperatura.getCpuTemperatura().then(function(respuesta){
     res.send(JSON.stringify(respuesta))
   },function(err){
@@ -57,7 +57,7 @@ app.get('/tempcpu', function (req, res) {
 });
 
 //ruta para obtener la informacion solo de la memoria
-app.get('/mem', function(req, res) {
+app.get('/mem', (req, res) => {
   Promise.all([getMem.getMemTotal(), getMem.getMemLibre()]).then(function(memResult){
     memoria.memTotal = memResult[0]
     memoria.memLibre = memResult[1]
@@ -70,7 +70,7 @@ app.get('/mem', function(req, res) {
 });
 
 //ruta para obtener el arbol de directorios de documentos
-app.get('/tree',function(req, res){
+app.get('/tree', (req, res) => {
   directorios = [getTreeDirectory.getTreeDirectory()]
   directorios.forEach((item)=>{
     item.title = item.name
@@ -83,7 +83,7 @@ app.get('/tree',function(req, res){
 });
 
 //ruta para obtener el almacenamiento
-app.get('/storage',function(req, res){
+app.get('/storage', (req, res) => {
     storage = []
     sistFichero = getAlmacenamiento.getSistFichero()
     tamanio = getAlmacenamiento.getTamanio()
@@ -120,6 +120,6 @@ app.get('/storage',function(req, res){
    })
 });
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log('Aplicación corriendo en el puerto 3000!');
 });

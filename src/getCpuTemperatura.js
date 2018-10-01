@@ -1,6 +1,6 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-async function getCpuTemperatura(){
+const getCpuTemperatura = async () => {
   const { stdout, stderr } = await exec("cat /sys/class/thermal/thermal_zone0/temp")
   if(stderr){
     console.log(`error ${stderr}`);

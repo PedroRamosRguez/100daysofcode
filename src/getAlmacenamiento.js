@@ -1,27 +1,27 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-async function getSistFichero(){
+const getSistFichero = async () => {
   const { stdout, stderr } = await exec ("df -h |awk '0+$5 > 0 {print $1}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
   console.log(`stdout: ${stdout}`);
-  sistFicheros = stdout.split('\n').slice(0,-1);
+  const sistFicheros = stdout.split('\n').slice(0,-1);
   return sistFicheros;
 }
 
-async function getTamanio(){
+const getTamanio = async () => {
   const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $2}'");
   if(stderr){
     console.log(`error ${stderr}`);  
   }
-  tamanio = stdout.split('\n').slice(0,-1);
+  const tamanio = stdout.split('\n').slice(0,-1);
   return tamanio;
 }
 
-async function getMaxTamanio(){
-  var maxTamanio=0;
+const getMaxTamanio = async () => {
+  let maxTamanio=0;
   const { stdout, stderr } = await exec("df |awk '0+$5 >= 0 {print $2}'");
   if(stderr){
     console.log(`error ${stderr}`);  
@@ -33,17 +33,17 @@ async function getMaxTamanio(){
   return Math.round(maxTamanio*1e-06)
 }
 
-async function getEspacioUsado(){
+const getEspacioUsado = async () => {
   const { stdout, stderr } = await exec("df -h|awk '0+$5 > 0 {print $3}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  usado = stdout.split('\n').slice(0,-1);
+  const usado = stdout.split('\n').slice(0,-1);
   return usado
 }
 
-async function getTotalUsado(){
-  var totalUsado=0;
+const getTotalUsado = async () => {
+  let totalUsado=0;
   const { stdout, stderr } = await exec("df |awk '0+$5 >= 0 {print $3}'");
   if(stderr){
     console.log(`error ${stderr}`);  
@@ -55,17 +55,17 @@ async function getTotalUsado(){
   return Math.round(totalUsado*1e-06)
 }
 
-async function getEspacioLibre(){
+const getEspacioLibre = async () => {
   const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $4}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  libre = stdout.split('\n').slice(0,-1);
+  let libre = stdout.split('\n').slice(0,-1);
   return libre
 }
 
-async function getTotalLibre(){
-  var totalLibre=0;
+const getTotalLibre = async () => {
+  let totalLibre=0;
   const { stdout, stderr } = await exec("df |awk '0+$5 >= 0 {print $4}'");
   if(stderr){
     console.log(`error ${stderr}`);  
@@ -77,12 +77,12 @@ async function getTotalLibre(){
   return Math.round(totalLibre*1e-06)
 }
 
-async function getPorcentaje(){
+const getPorcentaje = async () => {
   const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $5}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  porcentajeUsado = stdout.split('\n').slice(0,-1);
+  const porcentajeUsado = stdout.split('\n').slice(0,-1);
   return porcentajeUsado
 }
 
