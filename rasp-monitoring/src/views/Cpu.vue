@@ -33,7 +33,8 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/cpu')
           .then((response) => {
-            const value = [new Date(), response.data];
+            const value = [new Date(), parseFloat(response.data)];
+            console.log(value)
             self.usoCpu.push(value);
           })
           .catch((error) => {
