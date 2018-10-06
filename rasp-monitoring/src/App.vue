@@ -26,7 +26,13 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/tree"><i class="fas fa-hdd fa-fw"></i> <span class="">  Directorios</span></router-link>
               </li>
+              <li class="nav-item">
+                <router-link class="nav-link mx-auto" to="/poweroff"><button type="button" class="btn btn-danger" ><i class="fa fa-power-off boton" aria-hidden="true"></i></button></router-link>
+                <!-- v-bind:style="{visibilidad: ocultar }"              -->
+              </li>
+              <h1 style="color:red;">HOLA{{store.store.state.visibility}}</h1>
             </ul>
+           
           </div>
         </nav>
       </aside>
@@ -36,8 +42,26 @@
     </div>
   </div>
 </template>
-<style>
 
+
+ <script>
+//acceder al store... y poder cambiar el estilo del boton de apagado dependiendo de la temperatura que tenga el estado guardado...
+import Vue from 'vue';
+import Vuex from 'vuex'
+Vue.use(Vuex);
+const store = require('./store');
+export default {
+  name: 'app',
+  data() {
+    return {
+      store:store,
+    };
+  }
+}
+</script>
+
+
+<style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -72,10 +96,17 @@ main {
     max-height: 100%;
     overflow-y: auto;
 }
+
 .chart{
     background-color: #343A40;
 }
+
 html, body {
   overflow-x: hidden;
+}
+
+.boton {
+  font-size: 3em;
+  /* visibility: hidden; */
 }
 </style>

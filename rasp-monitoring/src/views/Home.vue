@@ -98,7 +98,6 @@
 
 <script>
 const axios = require('axios');
-
 export default {
   name: 'home',
   data() {
@@ -171,6 +170,7 @@ export default {
           })
           .then(() => {
             console.log('siempre se ejecuta esto...');
+            console.log(this.danger)
           });
       }, 3000);
     },
