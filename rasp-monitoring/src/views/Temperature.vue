@@ -17,9 +17,9 @@
         </div>
       </div>
     </div>
-    <p style="color:red">{{store.store.state.count}}</p>
+    <!-- <p style="color:red">{{store.store.state.count}}</p>
     <button @click="increment">+</button>
-    <button @click="decrement">-</button>
+    <button @click="decrement">-</button> -->
   </div>
  
 </template>
@@ -44,12 +44,15 @@ export default {
           .then((response) => {
             const value = [new Date(), response.data];
             self.temperaturaCpu.push(value);
+            self.checkTemperature(response.data);
           })
           .catch((error) => {
             console.log(error);
+            
           })
           .then(() => {
             console.log('siempre se ejecuta esto...');
+            
           });
       }, 5000);
     },
@@ -63,37 +66,35 @@ export default {
           })
           .catch((error) => {
             console.log(error);
+             self.checkTemperature();
           })
           .then(() => {
             console.log('siempre se ejecuta esto...');
           });
       }, 5000);
     },
-    increment(){
-      store.store.commit('increment');
-      console.log(store.store.state)
-      console.log(store.store.state.count)
-      console.log(store.store.state.visibility)
-    },
-    decrement(){
-      store.store.commit('decrement');
-      console.log(store.store.state.count)
+    // increment(){
+    //   store.store.commit('increment');
+    //   console.log(store.store.state)
+    //   console.log(store.store.state.count)
+    //   console.log(store.store.state.visibility)
+    // },
+    // decrement(){
+    //   store.store.commit('decrement');
+    //   console.log(store.store.state.count)
 
-    },
-    checkTemperature(){
-      const self = this;
-      setInterval(() => {
-        if(store.store.state.count > 10){
-          console.log('estoy en el if...')
-          this.ocultar()
-          console.log(store.store.state.visibility)
-        }else{
-          console.log('estoy en el else...')
-          this.mostrar()
-          console.log(store.store.state.visibility)
-        }
-      },5000)
-      
+    // },
+    checkTemperature(temperatura){
+      console.log('soy checktemperature')
+      if(temperatura < 50){
+        console.log('estoy en el if...')
+        this.ocultar()
+        console.log(store.store.state.visibility)
+      }else{
+        console.log('estoy en el else...')
+        this.mostrar()
+        console.log(store.store.state.visibility)
+      }    
     },
     ocultar(){
       store.store.commit('ocultar');
@@ -105,16 +106,6 @@ export default {
   created() {
     this.getCpuTemperature();
     this.getGpuTemperature();
-    this.checkTemperature();
-    // if(store.store.state.count > 10){
-    //   //console.log('estoy en el if...')
-    //   // this.ocultar()
-    //   // console.log(store.store.state.visibility)
-    // }else{
-    //   //console.log('estoy en el else...')
-    //   // this.mostrar()
-    //   // console.log(store.store.state.visibility)
-    // }
   },
   computed:{
     count (){

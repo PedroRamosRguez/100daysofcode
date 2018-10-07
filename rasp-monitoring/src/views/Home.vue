@@ -148,6 +148,7 @@ export default {
           .then((response) => {
             const value = [new Date(), response.data];
             self.temperaturaCpu.push(value);
+            self.checkTemperature(response.data);
           })
           .catch((error) => {
             console.log(error);
@@ -208,6 +209,24 @@ export default {
           });
       }, 3000);
     },
+    checkTemperature(temperatura){
+      console.log('soy checktemperature')
+      if(temperatura < 50){
+        console.log('estoy en el if...')
+        this.ocultar()
+        console.log(store.store.state.visibility)
+      }else{
+        console.log('estoy en el else...')
+        this.mostrar()
+        console.log(store.store.state.visibility)
+      }    
+    },
+    ocultar(){
+      store.store.commit('ocultar');
+    },
+    mostrar(){
+      store.store.commit('mostrar');
+    }
   },
   created() {
     this.getCpu();
