@@ -2,18 +2,18 @@ const express = require('express');
 const morgan = require('morgan');
 const getMem = require('./src/getMem');
 const getCpu = require('./src/getCpu');
-const getCpuTemperatura = require('./src/getCpuTemperatura');
-const getGpuTemperatura = require('./src/getGpuTemperatura');
-const getAlmacenamiento = require('./src/getAlmacenamiento');
+const getCpuTemperature = require('./src/getCpuTemperature');
+const getGpuTemperature = require('./src/getGpuTemperature');
+const getAlmacenamiento = require('./src/getStorage');
 const getTreeDirectory = require('./src/tree');
 const app = express();
-let sistFichero,
-    tamanio,
+let fileSyst,
+    size,
     maxTamanio,
-    espacioUsado,
-    espacioLibre,
-    porcentajeAlmacenamiento;
-let memoria = { 
+    usedSpace,
+    freeSpace,
+    sizePercentage;
+let memory = { 
   'memTotal': 0,
   'memLibre': 0,
   'memUsada': 0,
@@ -22,14 +22,14 @@ let memoria = {
 }
 app.use(morgan('tiny'))
 
-//esto es para entorno desarrollo y que axios pueda obtener los datos desde el servidor...
+//header for connecting via localhost or ipaddress
 app.use((req, res, next) => { 
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
-//ruta para obtener solo la informacion de la cpu.
+//get request to get cpu percentage
 app.get('/cpu', (req, res) => {
   getCpu.getCpu().then(function(respuesta){
     res.send(JSON.stringify(respuesta))
@@ -38,64 +38,64 @@ app.get('/cpu', (req, res) => {
   });
 });
 
-//ruta para obtener la información sobre la temperatura de la gpu
+//get request to get gpu temperature information
 app.get('/tempgpu', (req, res) => {
-  getGpuTemperatura.getGpuTemperatura().then(function(respuesta){
-    res.send(JSON.stringify(respuesta))
+  getGpuTemperature.getGpuTemperature().then(function(response){
+    res.send(JSON.stringify(response))
   },function(err){
     console.log(err);
   });
 });
 
-//ruta para obtener la información sobre la temperatura de la cpu
+//get request to get cpu temperature information
 app.get('/tempcpu', (req, res) => {
-  getCpuTemperatura.getCpuTemperatura().then(function(respuesta){
-    res.send(JSON.stringify(respuesta))
+  getCpuTemperature.getCpuTemperature().then(function(response){
+    res.send(JSON.stringify(response))
   },function(err){
     console.log(err);
   });
 });
 
-//ruta para obtener la informacion solo de la memoria
+//get request to get the memory information
 app.get('/mem', (req, res) => {
   Promise.all([getMem.getMemTotal(), getMem.getMemLibre()]).then(function(memResult){
-    memoria.memTotal = memResult[0]
-    memoria.memLibre = memResult[1]
-    memoria.memUsada = parseFloat(memoria.memTotal - memoria.memLibre).toFixed(3);
-    memoria.porcentajeMemUsada = Math.round(memoria.memUsada*100/memoria.memTotal);
-    memoria.porcentajeMemLibre = 100 - memoria.porcentajeMemUsada;
-    console.log(JSON.stringify(memoria))
-    res.send(JSON.stringify(memoria))
+    memory.memTotal = memResult[0]
+    memory.memLibre = memResult[1]
+    memory.memUsada = parseFloat(memory.memTotal - memory.memLibre).toFixed(3);
+    memory.porcentajeMemUsada = Math.round(memory.memUsada*100/memory.memTotal);
+    memory.porcentajeMemLibre = 100 - memory.porcentajeMemUsada;
+    console.log(JSON.stringify(memory))
+    res.send(JSON.stringify(memory))
   });
 });
 
-//ruta para obtener el arbol de directorios de documentos
+//get request to get the tree directory
 app.get('/tree', (req, res) => {
-  directorios = [getTreeDirectory.getTreeDirectory()]
-  directorios.forEach((item)=>{
+  directories = [getTreeDirectory.getTreeDirectory()]
+  directories.forEach((item)=>{
     item.title = item.name
     if(item.type === 'file'){
       item.extension = (item.name.split('.').slice(-1)).toString();
     }
   });
-  directorios = directorios[0]
-  res.send(JSON.stringify(directorios));
+  directories = directories[0]
+  res.send(JSON.stringify(directories));
 });
 
-//ruta para obtener el almacenamiento
+//get request to get storage information
 app.get('/storage', (req, res) => {
     storage = []
-    sistFichero = getAlmacenamiento.getSistFichero()
-    tamanio = getAlmacenamiento.getTamanio()
-    maxTamanio = getAlmacenamiento.getMaxTamanio()
-    espacioLibre = getAlmacenamiento.getEspacioLibre()
-    espacioUsado = getAlmacenamiento.getEspacioUsado()
-    porcentajeAlmacenamiento = getAlmacenamiento.getPorcentaje()
+    fileSyst = getAlmacenamiento.getSistFichero()
+    size = getAlmacenamiento.getTamanio()
+    maxSize = getAlmacenamiento.getMaxTamanio()
+    freeSpace = getAlmacenamiento.getEspacioLibre()
+    usedSpace = getAlmacenamiento.getEspacioUsado()
+    sizePercentage = getAlmacenamiento.getPorcentaje()
     var sdCardUsed=getAlmacenamiento.getTotalUsado();
     var sdCardFree=getAlmacenamiento.getTotalLibre();
-    var percentajeSdCard=0;
-    Promise.all([sistFichero, tamanio, espacioLibre, espacioUsado, porcentajeAlmacenamiento,
-                 maxTamanio,sdCardUsed, sdCardFree]).then(function(storageItem){
+    // var percentajeSdCard=0;
+    Promise.all([fileSyst, size, freeSpace, usedSpace, sizePercentage,
+                sdCardUsed, sdCardFree]).then(function(storageItem){
       for(var i=0;i<storageItem[0].length; i++){
         storage.push(
           {
@@ -118,6 +118,11 @@ app.get('/storage', (req, res) => {
       );
       res.send(JSON.stringify(storage))
    })
+});
+
+//post request to shutdown the raspberry pi when emergency button is pushed
+app.post('/shutdown',(req, res) => {
+  shutdown()
 });
 
 app.listen(3000, () => {

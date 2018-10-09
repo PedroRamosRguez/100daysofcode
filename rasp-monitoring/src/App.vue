@@ -27,7 +27,7 @@
                 <router-link class="nav-link" to="/tree"><i class="fas fa-hdd fa-fw"></i> <span class="">  Directorios</span></router-link>
               </li>
               <li class="nav-item" v-bind:style = "{visibility: store.store.state.visibility}">
-                <router-link class="nav-link mx-auto"   to="/poweroff"><button type="button"  v-bind:style="{visibility: store.store.state.visibility}" class="btn btn-danger" ><i class="fa fa-power-off boton" aria-hidden="true"></i></button></router-link>
+                <router-link class="nav-link mx-auto" to="/poweroff"><button type="submit"  v-bind:style="{visibility: store.store.state.visibility}" class="btn btn-danger" ><i class="fa fa-power-off boton" aria-hidden="true"></i></button></router-link>
               </li>
               <!-- <h1 style="color:red;">HOLA{{store.store.state.visibility}}</h1> -->
             </ul>
@@ -59,7 +59,6 @@ export default {
 }
 </script>
 
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -80,7 +79,6 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 
 body, html, .container-fluid {
     height: 100%;

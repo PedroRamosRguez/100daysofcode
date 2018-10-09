@@ -72,9 +72,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
           });
       }, 3000);
     },

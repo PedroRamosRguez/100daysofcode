@@ -87,12 +87,12 @@ const getPorcentaje = async () => {
 }
 
 module.exports = {
-                   getSistFichero,
-                   getTamanio,
-                   getMaxTamanio,
-                   getEspacioUsado,
-                   getTotalUsado,
-                   getEspacioLibre,
-                   getTotalLibre,
-                   getPorcentaje
-                 }
+  getSistFichero,
+  getTamanio,
+  getMaxTamanio,
+  getEspacioUsado,
+  getTotalUsado,
+  getEspacioLibre,
+  getTotalLibre,
+  getPorcentaje
+}

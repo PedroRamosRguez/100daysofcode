@@ -10,7 +10,7 @@
               <line-chart :data="usoCpu"
                           :library="library"
                           :download="true"
-                          download="Uso Cpu">
+                          download="Cpu_consume">
               </line-chart>
             </div>
           </div>
@@ -26,7 +26,7 @@
             <div class="card-block">
               <line-chart :data="temperaturaCpu"
                           :download="true"
-                          download="Temperatura Cpu">
+                          download="Cpu_temperature">
               </line-chart>
             </div>
           </div>
@@ -37,7 +37,7 @@
             <div class="card blockl">
               <line-chart :data="temperaturaGpu"
                           :download="true"
-                          download="Temperatura Gpu">
+                          download="Gpu_temperature">
               </line-chart>
             </div>
           </div>
@@ -54,7 +54,7 @@
               <pie-chart :data="[['Mem. Libre',memLibre],
                          ['Mem.Usada',memUsada]]"
                          :library="library" :colors="['#66ff66','#ff3333']"
-                         :download="true" download="Ram Info"/>
+                         :download="true" download="Ram_info"/>
             </div>
             Cantidad Memoria Ram Total {{memTotal}}<br/>
             Cantidad Memoria Ram Libre {{memLibre}}<br/>
@@ -98,6 +98,7 @@
 
 <script>
 const axios = require('axios');
+const store = require('../store');
 export default {
   name: 'home',
   data() {
@@ -112,6 +113,7 @@ export default {
       porcentajeMemUsada: 0,
       storage: [],
       maxTamanio: 0,
+      store:store,
       library: {
         responsive: true,
         cutoutPercentage: 55,
@@ -135,9 +137,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('SIEMPRE SSE EJECUTA ESTO..');
           });
       }, 3000);
     },
@@ -148,13 +147,11 @@ export default {
           .then((response) => {
             const value = [new Date(), response.data];
             self.temperaturaCpu.push(value);
+            console.log(response.data)
             self.checkTemperature(response.data);
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
           });
       }, 3000);
     },
@@ -168,10 +165,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
-            console.log(this.danger)
           });
       }, 3000);
     },
@@ -188,9 +181,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
           });
       }, 3000);
     },
@@ -203,29 +193,23 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
           });
       }, 3000);
     },
-    checkTemperature(temperatura){
-      console.log('soy checktemperature')
-      if(temperatura < 50){
-        console.log('estoy en el if...')
-        this.ocultar()
-        console.log(store.store.state.visibility)
+    checkTemperature(temperature){
+      if(temperature < 65){
+        this.hide()
+        // console.log(store.store.state.visibility)
       }else{
-        console.log('estoy en el else...')
-        this.mostrar()
-        console.log(store.store.state.visibility)
+        this.show()
+        // console.log(store.store.state.visibility)
       }    
     },
-    ocultar(){
-      store.store.commit('ocultar');
+    hide(){
+      store.store.commit('hide');
     },
-    mostrar(){
-      store.store.commit('mostrar');
+    show(){
+      store.store.commit('show');
     }
   },
   created() {

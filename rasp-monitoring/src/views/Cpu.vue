@@ -19,7 +19,6 @@
 
 <script>
 const axios = require('axios');
-
 export default {
   name: 'cpu',
   data() {
@@ -39,13 +38,9 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            console.log('SIEMPRE SSE EJECUTA ESTO..');
           });
-      }, 5000);
+      }, 3000);
     },
-    
   },
   created() {
     this.getCpu();

@@ -17,7 +17,4 @@ const getMemLibre = async () => {
   return parseFloat(stdout).toFixed(3);
 }
 
-module.exports = {
-                   getMemTotal,
-                   getMemLibre
-                 }
+module.exports = { getMemTotal, getMemLibre }
