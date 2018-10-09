@@ -59,9 +59,8 @@ export default {
       var self = this
       if(directorio != null){
         directorio.forEach((item)=>{
-          console.log(item);
-	  item.title = [item.name,item.extension]
-	  if(item.type === 'file'){
+          item.title = [item.name,item.extension]
+          if(item.type === 'file'){
             item.isLeaf=true;
           }
           item.isSelected=false;
@@ -73,9 +72,7 @@ export default {
             final.concat(self.parseDirectories(item.children));
           }  
         })
-        console.log(final);
       }
-      
       return final;
     }
   },
@@ -85,7 +82,6 @@ export default {
   computed: {
     patata :{
       get: function(){
-	console.log(this.directorios);
         return this.parseDirectories(this.directorios);
       },
       set:function(){

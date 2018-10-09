@@ -6,22 +6,18 @@
         <div class="col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Cpu</div>
-            <div class="card-block"><line-chart :data="temperaturaCpu" :download="true" download="Temperatura Cpu"></line-chart></div>
+            <div class="card-block"><line-chart :data="temperaturaCpu" :download="true" download="Cpu_temperature"></line-chart></div>
           </div>
         </div>
         <div class="col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Temperatura de la Gpu</div>
-            <div class="card blockl"><line-chart :data="temperaturaGpu" :download="true" download="Temperatura Gpu"></line-chart></div>
+            <div class="card blockl"><line-chart :data="temperaturaGpu" :download="true" download="Gpu_temperature"></line-chart></div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <p style="color:red">{{store.store.state.count}}</p>
-    <button @click="increment">+</button>
-    <button @click="decrement">-</button> -->
   </div>
- 
 </template>
 
 <script>
@@ -49,12 +45,8 @@ export default {
           .catch((error) => {
             console.log(error);
             
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
-            
           });
-      }, 5000);
+      }, 3000);
     },
     getGpuTemperature() {
       const self = this;
@@ -67,40 +59,24 @@ export default {
           .catch((error) => {
             console.log(error);
              self.checkTemperature();
-          })
-          .then(() => {
-            console.log('siempre se ejecuta esto...');
           });
-      }, 5000);
+      }, 3000);
     },
-    // increment(){
-    //   store.store.commit('increment');
-    //   console.log(store.store.state)
-    //   console.log(store.store.state.count)
-    //   console.log(store.store.state.visibility)
-    // },
-    // decrement(){
-    //   store.store.commit('decrement');
-    //   console.log(store.store.state.count)
-
-    // },
-    checkTemperature(temperatura){
+    checkTemperature(temperature){
       console.log('soy checktemperature')
-      if(temperatura < 50){
-        console.log('estoy en el if...')
-        this.ocultar()
-        console.log(store.store.state.visibility)
+      if(temperature < 65){
+        this.hide()
+        // console.log(store.store.state.visibility)
       }else{
-        console.log('estoy en el else...')
-        this.mostrar()
-        console.log(store.store.state.visibility)
+        this.show()
+        // console.log(store.store.state.visibility)
       }    
     },
-    ocultar(){
-      store.store.commit('ocultar');
+    hide(){
+      store.store.commit('hide');
     },
-    mostrar(){
-      store.store.commit('mostrar');
+    show(){
+      store.store.commit('show');
     }
   },
   created() {
