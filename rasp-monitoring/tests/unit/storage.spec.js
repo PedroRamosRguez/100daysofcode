@@ -1,27 +1,27 @@
 import storage from '@/views/Storage.vue'
 
 describe('Storage.vue', () => {
-  it('carga Storage', () => {
+  it('load Storage', () => {
     expect(typeof storage.created).toBe('function')
   });
 });
 
 describe('Storage.vue', () => {
-  it('carga data de Storage', () => {
+  it('load data from Storage', () => {
     expect(typeof storage.data).toBe('function')
   });
 });
    
   
 describe('Storage.vue', () => {
-  it('Valor devuelto por data es un objeto', () => {
+  it('data return an object', () => {
     const defaultData = storage.data();
     expect(typeof(defaultData)).toEqual('object')
   });
 });
 
 describe('Storage.vue', () => { 
-  it('Existe key storage en el objeto data de storage', () => {
+  it('The key storage exists in data object', () => {
     const defaultData = storage.data();
     expect('storage' in defaultData).toEqual(true);
   });
@@ -36,36 +36,36 @@ describe('Storage.vue', () => {
 // });
 
 describe('Storage.vue', () => { 
-  it('Existe key maxTamanio en el objeto data de storage', () => {
+  it('The key maxSize exists in data object', () => {
     const defaultData = storage.data();
-    expect('maxTamanio' in defaultData).toEqual(true);
+    expect('maxSize' in defaultData).toEqual(true);
   });
 });
 
 
 describe('Storage.vue', () => {
-  it('Existe key Library en el objeto data de storage', () => {
+  it('The key library exists in data object', () => {
     const defaultData = storage.data();
     expect('library' in defaultData).toEqual(true);
   });
 });
   
 describe('Storage.vue', () => {
-  it('La key Library es un denntro de data de storage', () => {
+  it('Library key is an object', () => {
     const library = storage.data().library;
     expect(typeof(library)).toEqual('object');
   });
 });
   
 describe('Storage.vue', () => {
-  it('Existe key responsive dentro de Library en el objeto data de storage', () => {
+  it('The key responsive exists in library object in data object', () => {
    const library = storage.data().library;
     expect('responsive' in library).toEqual(true);
   });
 });
   
 describe('Storage.vue', () => {
-  it('Existe key cutoutPercentaje dentro de Library en el objeto data de storage', () => {
+  it('The key cutoutPercentage exists in library object in data object', () => {
    const library = storage.data().library;
     expect('cutoutPercentage' in library).toEqual(true);
   });
@@ -79,28 +79,28 @@ describe('Storage.vue', () => {
 });
   
 describe('Storage.vue', () => {
-  it('Existe la key mode en pieceLabel dentro de Library en el objeto data de storage', () => {
+  it('The key mode exists in pieceLabel object in Library object in data object', () => {
     const pieceLabel = storage.data().library.pieceLabel;
     expect('mode' in pieceLabel).toEqual(true);
   });
 });
   
 describe('Storage.vue', () => {
-  it('La key mode en pieceLabel dentro de Library en el objeto data de storage es un valor de tipo string', () => {
+  it('The key mode in pieceLabel object is a string', () => {
     const pieceLabel = storage.data().library.pieceLabel;
     expect(typeof(pieceLabel.mode)).toEqual('string');
   });
 });
     
 describe('Storage.vue', () => {
-  it('Existe la key fontColor en pieceLabel dentro de Library en el objeto data de storage', () => {
+  it('The key fontColor exists in pieceLabel object in Library object in data object', () => {
     const pieceLabel = storage.data().library.pieceLabel;
     expect('fontColor' in pieceLabel).toEqual(true);
   });
 });
     
 describe('Storage.vue', () => {
-  it('La key fontColor en pieceLabel dentro de Library en el objeto data de storage es un valor de tipo string', () => {
+  it('The key fontColor in pieceLabel object is a string', () => {
     const pieceLabel = storage.data().library.pieceLabel;
     expect(typeof(pieceLabel.fontColor)).toEqual('string');
   });

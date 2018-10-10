@@ -29,7 +29,7 @@
             </div>
             Porcentaje Memoria Ram Libre {{percentageFreeMem}} %<br/>
             <br/>
-            Porcentaje Memoria Ram Usada {{porcentajeusedMem}} %<br/>
+            Porcentaje Memoria Ram Usada {{percentageUsedMem}} %<br/>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default {
       freeMem: 0,
       usedMem: 0,
       percentageFreeMem: 0,
-      porcentajeusedMem: 0,
+      percentajeUsedMem: 0,
       library: {
         responsive: true,
         cutoutPercentage: 75,
@@ -69,7 +69,7 @@ export default {
             self.freeMem = response.data.freeMem;
             self.usedMem = response.data.usedMem;
             self.percentageFreeMem = response.data.percentageFreeMem;
-            self.porcentajeusedMem = response.data.porcentajeusedMem;
+            self.porcentajeUsedMem = response.data.porcentajeUsedMem;
           })
           .catch((error) => {
             console.log(error);
