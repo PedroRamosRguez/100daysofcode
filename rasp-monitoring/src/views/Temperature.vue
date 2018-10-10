@@ -5,14 +5,26 @@
       <div class = "row">
         <div class="col-sm-5 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Temperatura de la Cpu</div>
-            <div class="card-block"><line-chart :data="temperaturaCpu" :download="true" download="Cpu_temperature"></line-chart></div>
+            <div class="card-header card-primary no-margin">Cpu Temperature</div>
+            <div class="card-block">
+              <line-chart
+                :data="cpuTemperature"
+                :download="true"
+                download="Cpu_temperature">
+              </line-chart>
+            </div>
           </div>
         </div>
         <div class="col-sm-5 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Temperatura de la Gpu</div>
-            <div class="card blockl"><line-chart :data="temperaturaGpu" :download="true" download="Gpu_temperature"></line-chart></div>
+            <div class="card-header card-primary no-margin">Gpu Temperature</div>
+            <div class="card blockl">
+              <line-chart
+                :data="gpuTemperature"
+                :download="true"
+                download="Gpu_temperature">
+              </line-chart>
+            </div>
           </div>
         </div>
       </div>
@@ -27,8 +39,8 @@ export default {
   name: 'temperature',
   data() {
     return {
-      temperaturaCpu: [],
-      temperaturaGpu: [],
+      cpuTemperature: [],
+      gpuTemperature: [],
       store:store,
     };
   },
@@ -39,7 +51,7 @@ export default {
         axios.get('http://192.168.1.42:3000/tempcpu')
           .then((response) => {
             const value = [new Date(), response.data];
-            self.temperaturaCpu.push(value);
+            self.cpuTemperature.push(value);
             self.checkTemperature(response.data);
           })
           .catch((error) => {
@@ -54,7 +66,7 @@ export default {
         axios.get('http://192.168.1.42:3000/tempgpu')
           .then((response) => {
             const value = [new Date(), response.data];
-            self.temperaturaGpu.push(value);
+            self.gpuTemperature.push(value);
           })
           .catch((error) => {
             console.log(error);

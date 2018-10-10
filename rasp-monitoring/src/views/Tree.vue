@@ -3,25 +3,25 @@
       <div class = "row">
         <sl-vue-tree v-model="patata">
 	  <template slot="title" slot-scope="{ node }">
-	      <span class="item-icon">
-	        <i class="fab fa-js-square" v-if="node.title[1] === '.js'"></i>
-                <i class="fab fa-vuejs" v-if="node.title[1] === '.vue'"></i>
-                <i class="fas fa-file-image" v-if="node.title[1] === '.png'"></i>
-                <i class="fas fa-file-image" v-if="node.title[1] === '.jpg'"></i>
-                <i class="fab fa-html5" v-if="node.title[1] === '.html'"></i>
-                <i class="fab fa-css3" v-if="node.title[1] === '.css'"></i>
-                <i class="fas fa-file-video" v-if="node.title[1] === '.mkv'"></i>
-                <i class="fas fa-file-video" v-if="node.title[1] === '.mp4'"></i>
-                <i class="fab fa-markdown" v-if="node.title[1] === '.md'"></i>
-                <i class="fas fa-code" v-if="node.title[1] === '.json'"></i>
-                <i class="fas fa-file-archive" v-if="node.title[1] === '.zip'"></i>
-                <i class="fas fa-file-archive" v-if="node.title[1] === '.rar'"></i>
-                <i class="fas fa-file-archive" v-if="node.title[1] === '.tar'"></i>
-                <i class="fas fa-file-alt" v-if="node.title[1] === '.txt'"></i>
-	        <i class="fa fa-folder" v-if="!node.isLeaf"></i>
-	      </span>
-	      {{ node.title[0] }}
-    	  </template>
+      <span class="item-icon">
+        <i class="fab fa-js-square" v-if="node.title[1] === '.js'"></i>
+        <i class="fab fa-vuejs" v-if="node.title[1] === '.vue'"></i>
+        <i class="fas fa-file-image" v-if="node.title[1] === '.png'"></i>
+        <i class="fas fa-file-image" v-if="node.title[1] === '.jpg'"></i>
+        <i class="fab fa-html5" v-if="node.title[1] === '.html'"></i>
+        <i class="fab fa-css3" v-if="node.title[1] === '.css'"></i>
+        <i class="fas fa-file-video" v-if="node.title[1] === '.mkv'"></i>
+        <i class="fas fa-file-video" v-if="node.title[1] === '.mp4'"></i>
+        <i class="fab fa-markdown" v-if="node.title[1] === '.md'"></i>
+        <i class="fas fa-code" v-if="node.title[1] === '.json'"></i>
+        <i class="fas fa-file-archive" v-if="node.title[1] === '.zip'"></i>
+        <i class="fas fa-file-archive" v-if="node.title[1] === '.rar'"></i>
+        <i class="fas fa-file-archive" v-if="node.title[1] === '.tar'"></i>
+        <i class="fas fa-file-alt" v-if="node.title[1] === '.txt'"></i>
+        <i class="fa fa-folder" v-if="!node.isLeaf"></i>
+      </span>
+	    {{ node.title[0] }}
+    </template>
 	</sl-vue-tree>
 
       </div>
@@ -35,7 +35,7 @@ export default {
   name: 'tree',
   data() {
     return {
-      directorios: [],
+      directories: [],
     };
   },
   methods: {
@@ -43,22 +43,19 @@ export default {
       const self = this;
       axios.get('http://192.168.1.42:3000/tree')
         .then((response) => {
-          self.directorios = response.data.children;
+          self.directories = response.data.children;
           //console.log(self.directorios);
           //console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
-        })
-        .then(() => {
-          console.log('SIEMPRE SSE EJECUTA ESTO..');
         });
     },
-    parseDirectories(directorio){
+    parseDirectories(directory){
       var final = []
       var self = this
-      if(directorio != null){
-        directorio.forEach((item)=>{
+      if(directory != null){
+        directory.forEach((item)=>{
           item.title = [item.name,item.extension]
           if(item.type === 'file'){
             item.isLeaf=true;
@@ -82,7 +79,7 @@ export default {
   computed: {
     patata :{
       get: function(){
-        return this.parseDirectories(this.directorios);
+        return this.parseDirectories(this.directories);
       },
       set:function(){
       }
@@ -91,9 +88,7 @@ export default {
 };
 </script>
 <style>
-body {
-background-color: #09161D;
-}
-
-
+  body {
+    background-color: #09161D;
+  }
 </style>

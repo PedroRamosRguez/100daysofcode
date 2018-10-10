@@ -5,30 +5,31 @@
       <div class = "row">
         <div class = "col-sm-5 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Memoria RAM (Gb)</div>
-            <div class="card blockl memLibre">
-              <pie-chart :data="[['Mem. Libre',memLibre],
-                                 ['Mem.Usada',memUsada]]"
-                         :library="library"
-                         :colors="['#66ff66','#ff3333']"/>
+            <div class="card-header card-primary no-margin">Ram Memory Info (Gb)</div>
+            <div class="card blockl freeMem">
+              <pie-chart
+                :data="[['Mem. Libre',freeMem], ['Mem.Usada',usedMem]]"
+                :library="library"
+                :colors="['#66ff66','#ff3333']"
+              />
             </div>
-            Cantidad Memoria Ram Total {{memTotal}}<br/>
-            Cantidad Memoria Ram Libre {{memLibre}}<br/>
-            Cantidad Memoria Ram Usada {{memUsada}}<br/>
+            Amount of Total Ram Memory {{memTotal}}<br/>
+            Amount of Free Ram Memory {{freeMem}}<br/>
+            Amount of Ram Used {{usedMem}}<br/>
           </div>
         </div>
         <div class = "col-sm-5 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Porcentaje memoria RAM</div>
+            <div class="card-header card-primary no-margin">Percentage Ram Memory</div>
             <div class="card blockl">
-              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],
-                                ['Mem.Usada',porcentajeMemUsada]]"
+              <pie-chart :data="[['Mem. Libre',percentageFreeMem],
+                                ['Mem.Usada',percentageUsedMem]]"
                          :library="library"
                          :colors="['#66ff66','#ac3973']"/>
             </div>
-            Porcentaje Memoria Ram Libre {{porcentajeMemLibre}} %<br/>
+            Porcentaje Memoria Ram Libre {{percentageFreeMem}} %<br/>
             <br/>
-            Porcentaje Memoria Ram Usada {{porcentajeMemUsada}} %<br/>
+            Porcentaje Memoria Ram Usada {{porcentajeusedMem}} %<br/>
           </div>
         </div>
       </div>
@@ -44,10 +45,10 @@ export default {
   data() {
     return {
       memTotal: 0,
-      memLibre: 0,
-      memUsada: 0,
-      porcentajeMemLibre: 0,
-      porcentajeMemUsada: 0,
+      freeMem: 0,
+      usedMem: 0,
+      percentageFreeMem: 0,
+      porcentajeusedMem: 0,
       library: {
         responsive: true,
         cutoutPercentage: 75,
@@ -65,10 +66,10 @@ export default {
         axios.get('http://192.168.1.42:3000/mem')
           .then((response) => {
             self.memTotal = response.data.memTotal;
-            self.memLibre = response.data.memLibre;
-            self.memUsada = response.data.memUsada;
-            self.porcentajeMemLibre = response.data.porcentajeMemLibre;
-            self.porcentajeMemUsada = response.data.porcentajeMemUsada;
+            self.freeMem = response.data.freeMem;
+            self.usedMem = response.data.usedMem;
+            self.percentageFreeMem = response.data.percentageFreeMem;
+            self.porcentajeusedMem = response.data.porcentajeusedMem;
           })
           .catch((error) => {
             console.log(error);

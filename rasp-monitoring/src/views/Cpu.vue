@@ -4,11 +4,12 @@
       <div class = "row">
         <div class="col-sm-6 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Uso de la Cpu</div>
+            <div class="card-header card-primary no-margin">Cpu Use</div>
             <div class="card-block">
-              <line-chart :data="usoCpu"
-                          :download="true"
-                          download="Uso Cpu">
+              <line-chart
+                :data="cpuUse"
+                :download="true"
+                download="Cpu_use">
               </line-chart>
             </div>
           </div>
@@ -23,7 +24,7 @@ export default {
   name: 'cpu',
   data() {
     return {
-      usoCpu: [],
+      cpuUse: [],
     };
   },
   methods: {
@@ -33,8 +34,7 @@ export default {
         axios.get('http://192.168.1.42:3000/cpu')
           .then((response) => {
             const value = [new Date(), parseFloat(response.data)];
-            console.log(value)
-            self.usoCpu.push(value);
+            self.cpuUse.push(value);
           })
           .catch((error) => {
             console.log(error);

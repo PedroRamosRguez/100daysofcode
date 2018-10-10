@@ -5,12 +5,13 @@
       <div class = "row">
         <div class="col-sm-6 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Uso de la Cpu</div>
+            <div class="card-header card-primary no-margin">Cpu Use</div>
             <div class="card-block">
-              <line-chart :data="usoCpu"
-                          :library="library"
-                          :download="true"
-                          download="Cpu_consume">
+              <line-chart
+                :data="cpuUse"
+                :library="library"
+                :download="true"
+                download="Cpu_use">
               </line-chart>
             </div>
           </div>
@@ -22,22 +23,24 @@
       <div class="row">
         <div class="col-sm-5 offset-sm-1">
           <div class="card">
-            <div class="card-header card-primary no-margin">Temperatura de la Cpu</div>
+            <div class="card-header card-primary no-margin">Cpu Temperature</div>
             <div class="card-block">
-              <line-chart :data="temperaturaCpu"
-                          :download="true"
-                          download="Cpu_temperature">
+              <line-chart
+                :data="cpuTemperature"
+                :download="true"
+                download="Cpu_temperature">
               </line-chart>
             </div>
           </div>
         </div>
         <div class="col-sm-5 ">
           <div class="card">
-            <div class="card-header card-primary no-margin">Temperatura de la Gpu</div>
+            <div class="card-header card-primary no-margin">Gpu Temperature</div>
             <div class="card blockl">
-              <line-chart :data="temperaturaGpu"
-                          :download="true"
-                          download="Gpu_temperature">
+              <line-chart
+                :data="gpuTemperature"
+                :download="true"
+                download="Gpu_temperature">
               </line-chart>
             </div>
           </div>
@@ -49,29 +52,33 @@
       <div class = "row">
         <div class = "col-sm-6 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Memoria RAM (Gb)</div>
-            <div class="card blockl memLibre">
-              <pie-chart :data="[['Mem. Libre',memLibre],
-                         ['Mem.Usada',memUsada]]"
-                         :library="library" :colors="['#66ff66','#ff3333']"
-                         :download="true" download="Ram_info"/>
+            <div class="card-header card-primary no-margin">Ram MemoryInfo (Gb)</div>
+            <div class="card blockl freeMem">
+              <pie-chart
+                :data="[['Free Mem',freeMem],['Used Mem',usedMem]]"
+                :library="library"
+                :colors="['#66ff66','#ff3333']"
+                :download="true"
+                download="Ram_info"/>
             </div>
-            Cantidad Memoria Ram Total {{memTotal}}<br/>
-            Cantidad Memoria Ram Libre {{memLibre}}<br/>
-            Cantidad Memoria Ram Usada {{memUsada}}<br/>
+            Amount of Total Ram Memory {{memTotal}}<br/>
+            Amount of Free Ram Memory {{freeMem}}<br/>
+            Amount of Ram Used {{usedMem}}<br/>
           </div>
         </div>
         <div class = "col-sm-6 mx-auto">
           <div class="card">
-            <div class="card-header card-primary no-margin">Porcentaje memoria RAM</div>
+            <div class="card-header card-primary no-margin">Percentage Ram Memory</div>
             <div class="card blockl">
-              <pie-chart :data="[['Mem. Libre',porcentajeMemLibre],
-                         ['Mem.Usada',porcentajeMemUsada]]"
-                         :library="library" :colors="['#66ff66','#ac3973']"/>
+              <pie-chart
+                :data="[['Free Mem',percentageFreeMem], ['Used Mem',percentajeUsedMem]]"
+                :library="library"
+                :colors="['#66ff66','#ac3973']"
+              />
             </div>
-            Porcentaje Memoria Ram Libre {{porcentajeMemLibre}} %<br/>
+            Percentage Free Ram Memory {{percentageFreeMem}} %<br/>
             <br/>
-            Porcentaje Memoria Ram Usada {{porcentajeMemUsada}} %<br/>
+            Percentage Used Ram Mermory {{percentajeUsedMem}} %<br/>
           </div>
         </div>
       </div>
@@ -84,9 +91,11 @@
             <div class="card">
               <div class="card-header card-primary no-margin">{{item.sistFicheros}}</div>
               <div class="card blockl">
-                <pie-chart :data="[['Espacio Usado (Gb)',item.espacioUsado],
-                           ['Espacio Libre (Gb)',item.espacioLibre]]"
-                           :library="library" :colors="['#ff4d4d','#80ff80']"/>
+                <pie-chart
+                  :data="[['Used Space (Gb)',item.espacioUsado],['Free Space (Gb)',item.espacioLibre]]"
+                  :library="library"
+                  :colors="['#ff4d4d','#80ff80']"
+                />
               </div>
             </div>
           </div>
@@ -103,16 +112,16 @@ export default {
   name: 'home',
   data() {
     return {
-      usoCpu: [],
-      temperaturaCpu: [],
-      temperaturaGpu: [],
+      cpuUse: [],
+      cpuTemperature: [],
+      gpuTemperature: [],
       memTotal: 0,
-      memLibre: 0,
-      memUsada: 0,
-      porcentajeMemLibre: 0,
-      porcentajeMemUsada: 0,
+      freeMem: 0,
+      usedMem: 0,
+      percentageFreeMem: 0,
+      percentajeUsedMem: 0,
       storage: [],
-      maxTamanio: 0,
+      maxSize: 0,
       store:store,
       library: {
         responsive: true,
@@ -133,7 +142,7 @@ export default {
         axios.get('http://192.168.1.42:3000/cpu')
           .then((response) => {
             const value = [new Date(), response.data];
-            self.usoCpu.push(value);
+            self.cpuUse.push(value);
           })
           .catch((error) => {
             console.log(error);
@@ -146,8 +155,8 @@ export default {
         axios.get('http://192.168.1.42:3000/tempcpu')
           .then((response) => {
             const value = [new Date(), response.data];
-            self.temperaturaCpu.push(value);
-            console.log(response.data)
+            self.cpuTemperature.push(value);
+            //console.log(response.data)
             self.checkTemperature(response.data);
           })
           .catch((error) => {
@@ -161,7 +170,7 @@ export default {
         axios.get('http://192.168.1.42:3000/tempgpu')
           .then((response) => {
             const value = [new Date(), response.data];
-            self.temperaturaGpu.push(value);
+            self.gpuTemperature.push(value);
           })
           .catch((error) => {
             console.log(error);
@@ -174,10 +183,10 @@ export default {
         axios.get('http://192.168.1.42:3000/mem')
           .then((response) => {
             self.memTotal = response.data.memTotal;
-            self.memLibre = response.data.memLibre;
-            self.memUsada = response.data.memUsada;
-            self.porcentajeMemLibre = response.data.porcentajeMemLibre;
-            self.porcentajeMemUsada = response.data.porcentajeMemUsada;
+            self.freeMem = response.data.freeMem;
+            self.usedMem = response.data.usedMem;
+            self.percentageFreeMem = response.data.percentageFreeMem;
+            self.percentajeUsedMem = response.data.percentajeUsedMem;
           })
           .catch((error) => {
             console.log(error);
