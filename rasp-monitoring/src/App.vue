@@ -14,24 +14,22 @@
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/temp" data-toggle="collapse" data-target="#m1" aria-expanded="false">
-                 <i class="fas fa-thermometer-three-quarters fa-fw"></i> <span class="">Temperatura</span>
+                 <i class="fas fa-thermometer-three-quarters fa-fw"></i> <span class="">Temperature</span>
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/mem"><i class="fas fa-memory"></i> <span class="">  Memoria</span></router-link>
+                <router-link class="nav-link" to="/mem"><i class="fas fa-memory"></i> <span class="">  Memory</span></router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/storage"><i class="fas fa-hdd fa-fw"></i> <span class="">  Almacenamiento</span></router-link>
+                <router-link class="nav-link" to="/storage"><i class="fas fa-hdd fa-fw"></i> <span class="">  Storage</span></router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/tree"><i class="fas fa-hdd fa-fw"></i> <span class="">  Directorios</span></router-link>
+                <router-link class="nav-link" to="/tree"><i class="fas fa-hdd fa-fw"></i> <span class="">  Directories</span></router-link>
               </li>
               <li class="nav-item" v-bind:style = "{visibility: store.store.state.visibility}">
                 <router-link class="nav-link mx-auto" to="/poweroff"><button type="submit"  v-bind:style="{visibility: store.store.state.visibility}" class="btn btn-danger" ><i class="fa fa-power-off boton" aria-hidden="true"></i></button></router-link>
               </li>
-              <!-- <h1 style="color:red;">HOLA{{store.store.state.visibility}}</h1> -->
             </ul>
-           
           </div>
         </nav>
       </aside>
@@ -41,10 +39,8 @@
     </div>
   </div>
 </template>
-
-
- <script>
-//acceder al store... y poder cambiar el estilo del boton de apagado dependiendo de la temperatura que tenga el estado guardado...
+ 
+<script>
 import Vue from 'vue';
 import Vuex from 'vuex'
 Vue.use(Vuex);
