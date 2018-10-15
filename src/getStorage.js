@@ -1,98 +1,98 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-const getSistFichero = async () => {
+const getFileSystem = async () => {
   const { stdout, stderr } = await exec ("df -h |awk '0+$5 > 0 {print $1}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
   console.log(`stdout: ${stdout}`);
-  const sistFicheros = stdout.split('\n').slice(0,-1);
-  return sistFicheros;
+  const fileSystem = stdout.split('\n').slice(0,-1);
+  return fileSystem;
 }
 
-const getTamanio = async () => {
+const getSize = async () => {
   const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $2}'");
   if(stderr){
     console.log(`error ${stderr}`);  
   }
-  const tamanio = stdout.split('\n').slice(0,-1);
-  return tamanio;
+  const size = stdout.split('\n').slice(0,-1);
+  return size;
 }
 
-const getMaxTamanio = async () => {
-  let maxTamanio=0;
+const getMaxSize = async () => {
+  let maxSize=0;
   const { stdout, stderr } = await exec("df |awk '0+$5 >= 0 {print $2}'");
   if(stderr){
     console.log(`error ${stderr}`);  
   }
-  tamanio = stdout.split('\n').slice(1,-1);
-  for(var i=0; i< tamanio.length; i++){
-   maxTamanio+=parseInt(tamanio[i]);
+  let size = stdout.split('\n').slice(1,-1);
+  for(var i=0; i< size.length; i++){
+   maxSize +=parseInt(size[i]);
   }
-  return Math.round(maxTamanio*1e-06)
+  return Math.round(maxSize*1e-06)
 }
 
-const getEspacioUsado = async () => {
+const getUsedSpace = async () => {
   const { stdout, stderr } = await exec("df -h|awk '0+$5 > 0 {print $3}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  const usado = stdout.split('\n').slice(0,-1);
-  return usado
+  const usedSpace = stdout.split('\n').slice(0,-1);
+  return usedSpace
 }
 
-const getTotalUsado = async () => {
-  let totalUsado=0;
+const getTotalUsed = async () => {
+  let totalUsed=0;
   const { stdout, stderr } = await exec("df |awk '0+$5 >= 0 {print $3}'");
   if(stderr){
     console.log(`error ${stderr}`);  
   }
-  tamanio = stdout.split('\n').slice(1,-1);
-  for(var i=0; i< tamanio.length; i++){
-   totalUsado+=parseInt(tamanio[i]);
+  let size = stdout.split('\n').slice(1,-1);
+  for(var i=0; i< size.length; i++){
+   totalUsed +=parseInt(size[i]);
   }
-  return Math.round(totalUsado*1e-06)
+  return Math.round(totalUsed*1e-06)
 }
 
-const getEspacioLibre = async () => {
+const getFreeSpace = async () => {
   const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $4}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  let libre = stdout.split('\n').slice(0,-1);
-  return libre
+  let freeSpace = stdout.split('\n').slice(0,-1);
+  return freeSpace
 }
 
-const getTotalLibre = async () => {
-  let totalLibre=0;
+const getTotalFree = async () => {
+  let totalFree=0;
   const { stdout, stderr } = await exec("df |awk '0+$5 >= 0 {print $4}'");
   if(stderr){
     console.log(`error ${stderr}`);  
   }
-  tamanio = stdout.split('\n').slice(1,-1);
-  for(var i=0; i< tamanio.length; i++){
-   totalLibre+=parseInt(tamanio[i]);
+  let size = stdout.split('\n').slice(1,-1);
+  for(var i=0; i< size.length; i++){
+   totalFree +=parseInt(size[i]);
   }
-  return Math.round(totalLibre*1e-06)
+  return Math.round(totalFree*1e-06)
 }
 
-const getPorcentaje = async () => {
+const getPercentage = async () => {
   const { stdout, stderr } = await exec("df -h |awk '0+$5 > 0 {print $5}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  const porcentajeUsado = stdout.split('\n').slice(0,-1);
-  return porcentajeUsado
+  const percentageUsed = stdout.split('\n').slice(0,-1);
+  return percentageUsed
 }
 
 module.exports = {
-  getSistFichero,
-  getTamanio,
-  getMaxTamanio,
-  getEspacioUsado,
-  getTotalUsado,
-  getEspacioLibre,
-  getTotalLibre,
-  getPorcentaje
+  getFileSystem,
+  getSize,
+  getMaxSize,
+  getUsedSpace,
+  getTotalUsed,
+  getFreeSpace,
+  getTotalFree,
+  getPercentage
 }

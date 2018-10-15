@@ -182,7 +182,7 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/mem')
           .then((response) => {
-            self.memTotal = response.data.memTotal;
+            self.memTotal = response.data.totalMem;
             self.freeMem = response.data.freeMem;
             self.usedMem = response.data.usedMem;
             self.percentageFreeMem = response.data.percentageFreeMem;

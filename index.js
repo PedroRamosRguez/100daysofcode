@@ -4,7 +4,7 @@ const getMem = require('./src/getMem');
 const getCpu = require('./src/getCpu');
 const getCpuTemperature = require('./src/getCpuTemperature');
 const getGpuTemperature = require('./src/getGpuTemperature');
-const getAlmacenamiento = require('./src/getStorage');
+const getStorage = require('./src/getStorage');
 const getTreeDirectory = require('./src/tree');
 const app = express();
 let fileSyst,
@@ -14,11 +14,11 @@ let fileSyst,
     freeSpace,
     sizePercentage;
 let memory = { 
-  'memTotal': 0,
-  'memLibre': 0,
-  'memUsada': 0,
-  'porcentajeMemUsada': 0,
-  'porcentajeMemLibre': 0
+  'totalMem': 0,
+  'freeMem': 0,
+  'UsedMem': 0,
+  'percentageUsedMem': 0,
+  'percentageFreeMem': 0
 }
 app.use(morgan('tiny'))
 
@@ -59,11 +59,11 @@ app.get('/tempcpu', (req, res) => {
 //get request to get the memory information
 app.get('/mem', (req, res) => {
   Promise.all([getMem.getMemTotal(), getMem.getMemLibre()]).then(function(memResult){
-    memory.memTotal = memResult[0]
-    memory.memLibre = memResult[1]
-    memory.memUsada = parseFloat(memory.memTotal - memory.memLibre).toFixed(3);
-    memory.porcentajeMemUsada = Math.round(memory.memUsada*100/memory.memTotal);
-    memory.porcentajeMemLibre = 100 - memory.porcentajeMemUsada;
+    memory.totalMem = memResult[0]
+    memory.freeMem = memResult[1]
+    memory.UsedMem = parseFloat(memory.memTotal - memory.memLibre).toFixed(3);
+    memory.percentageUsedMem = Math.round(memory.memUsada*100/memory.memTotal);
+    memory.percentageFreeMem = 100 - memory.porcentajeMemUsada;
     console.log(JSON.stringify(memory))
     res.send(JSON.stringify(memory))
   });
@@ -85,14 +85,14 @@ app.get('/tree', (req, res) => {
 //get request to get storage information
 app.get('/storage', (req, res) => {
     storage = []
-    fileSyst = getAlmacenamiento.getSistFichero()
-    size = getAlmacenamiento.getTamanio()
-    maxSize = getAlmacenamiento.getMaxTamanio()
-    freeSpace = getAlmacenamiento.getEspacioLibre()
-    usedSpace = getAlmacenamiento.getEspacioUsado()
-    sizePercentage = getAlmacenamiento.getPorcentaje()
-    var sdCardUsed=getAlmacenamiento.getTotalUsado();
-    var sdCardFree=getAlmacenamiento.getTotalLibre();
+    fileSyst = getStorage.getFileSystem()
+    size = getStorage.getSize()
+    maxSize = getStorage.getMaxSize()
+    freeSpace = getStorage.getFreeSpace()
+    usedSpace = getStorage.getUsedSpace()
+    sizePercentage = getStorage.getPercentage()
+    let sdCardUsed=getStorage.getTotalUsed();
+    let sdCardFree=getStorage.getTotalFree();
     // var percentajeSdCard=0;
     Promise.all([fileSyst, size, freeSpace, usedSpace, sizePercentage,
                 sdCardUsed, sdCardFree]).then(function(storageItem){
