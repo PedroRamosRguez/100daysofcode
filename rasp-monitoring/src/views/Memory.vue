@@ -8,28 +8,28 @@
             <div class="card-header card-primary no-margin">Ram Memory Info (Gb)</div>
             <div class="card blockl freeMem">
               <pie-chart
-                :data="[['Mem. Libre',freeMem], ['Mem.Usada',usedMem]]"
+                :data="[['Mem. Free.',memFree], ['Mem. Used',memUsed]]"
                 :library="library"
                 :colors="['#66ff66','#ff3333']"
               />
             </div>
-            Amount of Total Ram Memory {{memTotal}}<br/>
-            Amount of Free Ram Memory {{freeMem}}<br/>
-            Amount of Ram Used {{usedMem}}<br/>
+            Amount of Total Ram Memory {{totalMem}}<br/>
+            Amount of Free Ram Memory {{memFree}}<br/>
+            Amount of Ram Used {{memUsed}}<br/>
           </div>
         </div>
         <div class = "col-sm-5 mx-auto">
           <div class="card">
             <div class="card-header card-primary no-margin">Percentage Ram Memory</div>
             <div class="card blockl">
-              <pie-chart :data="[['Mem. Libre',percentageFreeMem],
-                                ['Mem.Usada',percentageUsedMem]]"
+              <pie-chart :data="[['Free Mem.',percentageMemFree],
+                                ['Used Mem.',percentageMemUsed]]"
                          :library="library"
                          :colors="['#66ff66','#ac3973']"/>
             </div>
-            Porcentaje Memoria Ram Libre {{percentageFreeMem}} %<br/>
+            Percentage Memory Ram Free {{percentageMemFree}} %<br/>
             <br/>
-            Porcentaje Memoria Ram Usada {{percentageUsedMem}} %<br/>
+            Percentage Memory Ram Used {{percentageMemUsed}} %<br/>
           </div>
         </div>
       </div>
@@ -45,10 +45,10 @@ export default {
   data() {
     return {
       memTotal: 0,
-      freeMem: 0,
-      usedMem: 0,
-      percentageFreeMem: 0,
-      percentajeUsedMem: 0,
+      memFree: 0,
+      memUsed: 0,
+      percentageMemFree: 0,
+      percentageMemUsed: 0,
       library: {
         responsive: true,
         cutoutPercentage: 75,
@@ -66,10 +66,10 @@ export default {
         axios.get('http://192.168.1.42:3000/mem')
           .then((response) => {
             self.memTotal = response.data.memTotal;
-            self.freeMem = response.data.freeMem;
-            self.usedMem = response.data.usedMem;
-            self.percentageFreeMem = response.data.percentageFreeMem;
-            self.porcentajeUsedMem = response.data.porcentajeUsedMem;
+            self.memFree = response.data.memFree;
+            self.memUsed = response.data.memUsed;
+            self.percentageMemFree = response.data.percentageMemFree;
+            self.percentageMemUsed = response.data.percentageMemUsed;
           })
           .catch((error) => {
             console.log(error);

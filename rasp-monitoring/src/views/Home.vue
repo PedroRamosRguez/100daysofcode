@@ -55,15 +55,15 @@
             <div class="card-header card-primary no-margin">Ram MemoryInfo (Gb)</div>
             <div class="card blockl freeMem">
               <pie-chart
-                :data="[['Free Mem',freeMem],['Used Mem',usedMem]]"
+                :data="[['Mem. Free',memFree],['Mem. Used',memUsed]]"
                 :library="library"
                 :colors="['#66ff66','#ff3333']"
                 :download="true"
                 download="Ram_info"/>
             </div>
             Amount of Total Ram Memory {{memTotal}}<br/>
-            Amount of Free Ram Memory {{freeMem}}<br/>
-            Amount of Ram Used {{usedMem}}<br/>
+            Amount of Free Ram Memory {{memFree}}<br/>
+            Amount of Ram Used {{memUsed}}<br/>
           </div>
         </div>
         <div class = "col-sm-6 mx-auto">
@@ -71,14 +71,14 @@
             <div class="card-header card-primary no-margin">Percentage Ram Memory</div>
             <div class="card blockl">
               <pie-chart
-                :data="[['Free Mem',percentageFreeMem], ['Used Mem',percentajeUsedMem]]"
+                :data="[['Mem. Free',percentageMemFree], ['Mem. Used',percentageMemUsed]]"
                 :library="library"
                 :colors="['#66ff66','#ac3973']"
               />
             </div>
-            Percentage Free Ram Memory {{percentageFreeMem}} %<br/>
+            Percentage Memory Ram Free {{percentageMemFree}} %<br/>
             <br/>
-            Percentage Used Ram Mermory {{percentajeUsedMem}} %<br/>
+            Percentage Memory Ram Used {{percentageMemUsed}} %<br/>
           </div>
         </div>
       </div>
@@ -87,12 +87,12 @@
       <br/>
       <div class="row">
         <template v-for="item in storage">
-          <div class = "col-sm-3" :key="item.sistFicheros">
+          <div class = "col-sm-3" :key="item.fileSystem">
             <div class="card">
-              <div class="card-header card-primary no-margin">{{item.sistFicheros}}</div>
+              <div class="card-header card-primary no-margin">{{item.fileSystem}}</div>
               <div class="card blockl">
                 <pie-chart
-                  :data="[['Used Space (Gb)',item.espacioUsado],['Free Space (Gb)',item.espacioLibre]]"
+                  :data="[['Space Used (Gb)',item.spaceUsed],['Space Free (Gb)',item.spaceFree]]"
                   :library="library"
                   :colors="['#ff4d4d','#80ff80']"
                 />
@@ -116,10 +116,10 @@ export default {
       cpuTemperature: [],
       gpuTemperature: [],
       memTotal: 0,
-      freeMem: 0,
-      usedMem: 0,
-      percentageFreeMem: 0,
-      percentajeUsedMem: 0,
+      memFree: 0,
+      memUsed: 0,
+      percentageMemFree: 0,
+      percentageMemUsed: 0,
       storage: [],
       maxSize: 0,
       store:store,
@@ -182,11 +182,11 @@ export default {
       setInterval(() => {
         axios.get('http://192.168.1.42:3000/mem')
           .then((response) => {
-            self.memTotal = response.data.totalMem;
-            self.freeMem = response.data.freeMem;
-            self.usedMem = response.data.usedMem;
-            self.percentageFreeMem = response.data.percentageFreeMem;
-            self.percentajeUsedMem = response.data.percentajeUsedMem;
+            self.memTotal = response.data.memTotal;
+            self.memFree = response.data.memFree;
+            self.memUsed = response.data.memUsed;
+            self.percentageMemFree = response.data.percentageMemFree;
+            self.percentageMemUsed = response.data.percentageMemUsed;
           })
           .catch((error) => {
             console.log(error);

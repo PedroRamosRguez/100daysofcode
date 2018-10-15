@@ -6,10 +6,10 @@
         <template v-for="item in storage">
           <div class = "col-sm-3" :key="item.sistFicheros">
             <div class="card">
-              <div class="card-header card-primary no-margin">{{item.sistFicheros}}</div>
+              <div class="card-header card-primary no-margin">{{item.fileSystem}}</div>
               <div class="card blockl">
                 <pie-chart
-                  :data="[['Espacio Usado (Gb)',item.espacioUsado], ['Espacio Libre (Gb)',item.espacioLibre]]"
+                  :data="[['Used Space (Gb)',item.spaceUsed], ['Space Free (Gb)',item.spaceFree]]"
                   :library="library"
                   :colors="['#ff4d4d','#80ff80']"
                 />
