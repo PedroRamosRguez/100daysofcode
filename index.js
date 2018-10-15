@@ -14,11 +14,11 @@ let fileSyst,
     freeSpace,
     sizePercentage;
 let memory = { 
-  'totalMem': 0,
-  'freeMem': 0,
-  'UsedMem': 0,
-  'percentageUsedMem': 0,
-  'percentageFreeMem': 0
+  'memTotal': 0,
+  'memFree': 0,
+  'memUsed': 0,
+  'percentageMemUsed': 0,
+  'percentageMemFree': 0
 }
 app.use(morgan('tiny'))
 
@@ -58,12 +58,12 @@ app.get('/tempcpu', (req, res) => {
 
 //get request to get the memory information
 app.get('/mem', (req, res) => {
-  Promise.all([getMem.getMemTotal(), getMem.getMemLibre()]).then(function(memResult){
-    memory.totalMem = memResult[0]
-    memory.freeMem = memResult[1]
-    memory.UsedMem = parseFloat(memory.memTotal - memory.memLibre).toFixed(3);
-    memory.percentageUsedMem = Math.round(memory.memUsada*100/memory.memTotal);
-    memory.percentageFreeMem = 100 - memory.porcentajeMemUsada;
+  Promise.all([getMem.getMemTotal(), getMem.getMemFree()]).then(function(memResult){
+    memory.memTotal = memResult[0]
+    memory.memFree = memResult[1]
+    memory.memUsed = parseFloat(memory.memTotal - memory.memFree).toFixed(3);
+    memory.percentageMemUsed = Math.round(memory.memUsed*100/memory.memTotal);
+    memory.percentageMemFree = 100 - memory.percentageMemUsed;
     console.log(JSON.stringify(memory))
     res.send(JSON.stringify(memory))
   });
@@ -93,27 +93,26 @@ app.get('/storage', (req, res) => {
     sizePercentage = getStorage.getPercentage()
     let sdCardUsed=getStorage.getTotalUsed();
     let sdCardFree=getStorage.getTotalFree();
-    // var percentajeSdCard=0;
+    let percentajeSdCard=0;
     Promise.all([fileSyst, size, freeSpace, usedSpace, sizePercentage,
-                sdCardUsed, sdCardFree]).then(function(storageItem){
+                maxSize,sdCardUsed, sdCardFree]).then(function(storageItem){
       for(var i=0;i<storageItem[0].length; i++){
         storage.push(
           {
-            'sistFicheros': storageItem[0][i], 
-            'tamanio': storageItem[1][i].slice(0, -1),
-            'espacioLibre': storageItem[2][i].slice(0, -1),
-            'espacioUsado':storageItem[3][i].slice(0, -1),
-            'porcentaje': storageItem[4][i].slice(0, -1)
+            'fileSystem': storageItem[0][i], 
+            'size': storageItem[1][i].slice(0, -1),
+            'spaceFree': storageItem[2][i].slice(0, -1),
+            'spaceUsed':storageItem[3][i].slice(0, -1),
+            'percentage': storageItem[4][i].slice(0, -1)
           }
         )
       }
       storage.push(
         {
-          'sistFicheros': 'SD Card',
-          'tamanio': storageItem[5],
-          'espacioLibre': parseInt(storageItem[7]),
-          'espacioUsado': parseInt(storageItem[6]),
-          'porcentaje': (storageItem[6]*100)/storageItem[2]
+          'fileSystem': 'SD Card',
+          'size': storageItem[5],
+          'spaceFree': parseInt(storageItem[7]),
+          'spaceUsed': parseInt(storageItem[6]),
         }
       );
       res.send(JSON.stringify(storage))

@@ -2,11 +2,12 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const getFileSystem = async () => {
-  const { stdout, stderr } = await exec ("df -h |awk '0+$5 > 0 {print $1}'");
+  const { stdout, stderr } = await exec ("df -h |awk '0+$5 > 0 {print $1 $6}'");
   if(stderr){
     console.log(`error ${stderr}`);
   }
   console.log(`stdout: ${stdout}`);
+  console.log(stdout.split('\n'));
   const fileSystem = stdout.split('\n').slice(0,-1);
   return fileSystem;
 }

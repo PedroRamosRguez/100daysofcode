@@ -9,7 +9,7 @@ const getMemTotal = async () => {
   return parseFloat(stdout).toFixed(3);
 }
 
-const getMemLibre = async () => {
+const getMemFree = async () => {
   const {stdout, stderr } = await exec("awk '/MemFree/ {print $2/1048576 }' /proc/meminfo");
   if(stderr){
     console.log(`error ${stderr}`);
@@ -17,4 +17,4 @@ const getMemLibre = async () => {
   return parseFloat(stdout).toFixed(3);
 }
 
-module.exports = { getMemTotal, getMemLibre }
+module.exports = { getMemTotal, getMemFree }
