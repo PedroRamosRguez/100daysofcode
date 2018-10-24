@@ -5,7 +5,6 @@ const getCpu = async () => {
   if(stderr){
     console.log(`error ${stderr}`);
   }
-  console.log(`stdout : ${stdout}`);
   return stdout;
 }
 module.exports = { getCpu };

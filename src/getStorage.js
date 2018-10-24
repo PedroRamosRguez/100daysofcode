@@ -7,7 +7,6 @@ const getFileSystem = async () => {
     console.log(`error ${stderr}`);
   }
   console.log(`stdout: ${stdout}`);
-  console.log(stdout.split('\n'));
   const fileSystem = stdout.split('\n').slice(0,-1);
   return fileSystem;
 }
@@ -31,7 +30,7 @@ const getMaxSize = async () => {
   for(var i=0; i< size.length; i++){
    maxSize +=parseInt(size[i]);
   }
-  return Math.round(maxSize*1e-06)
+  return Math.round(maxSize*1e-06);
 }
 
 const getUsedSpace = async () => {
@@ -40,7 +39,7 @@ const getUsedSpace = async () => {
     console.log(`error ${stderr}`);
   }
   const usedSpace = stdout.split('\n').slice(0,-1);
-  return usedSpace
+  return usedSpace;
 }
 
 const getTotalUsed = async () => {
@@ -53,7 +52,7 @@ const getTotalUsed = async () => {
   for(var i=0; i< size.length; i++){
    totalUsed +=parseInt(size[i]);
   }
-  return Math.round(totalUsed*1e-06)
+  return Math.round(totalUsed*1e-06);
 }
 
 const getFreeSpace = async () => {
@@ -62,7 +61,7 @@ const getFreeSpace = async () => {
     console.log(`error ${stderr}`);
   }
   let freeSpace = stdout.split('\n').slice(0,-1);
-  return freeSpace
+  return freeSpace;
 }
 
 const getTotalFree = async () => {
@@ -75,7 +74,7 @@ const getTotalFree = async () => {
   for(var i=0; i< size.length; i++){
    totalFree +=parseInt(size[i]);
   }
-  return Math.round(totalFree*1e-06)
+  return Math.round(totalFree*1e-06);
 }
 
 const getPercentage = async () => {
@@ -96,4 +95,4 @@ module.exports = {
   getFreeSpace,
   getTotalFree,
   getPercentage
-}
+};
