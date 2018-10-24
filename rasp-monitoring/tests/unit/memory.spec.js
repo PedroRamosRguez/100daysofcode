@@ -31,28 +31,28 @@ describe('Memory.vue', () => {
 describe('Memory.vue', () => {
   it('The key freeMem exists in data object', () => {
     const defaultData = memory.data();
-    expect('freemem' in defaultData).toEqual(true);
+    expect('memFree' in defaultData).toEqual(true);
   });
 });
 
 describe('Memory.vue', () => {
   it('The key usedMem exists in data object', () => {
     const defaultData = memory.data();
-    expect('usedMem' in defaultData).toEqual(true);
+    expect('memUsed' in defaultData).toEqual(true);
   });
 });
 
 describe('Memory.vue', () => {
   it('The key percentajeFreeMem exists in data object', () => {
     const defaultData = memory.data();
-    expect('percentageFreeMem' in defaultData).toEqual(true);
+    expect('percentageMemFree' in defaultData).toEqual(true);
   });
 });
 
 describe('Memory.vue', () => {
   it('The key percentajeUsedMem exists in data object', () => {
     const defaultData = memory.data();
-    expect('percentageUsedMem' in defaultData).toEqual(true);
+    expect('percentageMemUsed' in defaultData).toEqual(true);
   });
 });
 

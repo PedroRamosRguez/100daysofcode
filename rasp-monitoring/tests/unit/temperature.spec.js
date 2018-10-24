@@ -32,3 +32,10 @@ describe('Temperature.vue', () => {
     expect('gpuTemperature' in defaultData).toEqual(true);
   });
 });
+
+describe('Temperature.vue', () => { 
+  it('Load store in data object', () => {
+    const defaultData = temperature.data();
+    expect('store' in defaultData).toEqual(true);
+  });
+});
