@@ -126,6 +126,7 @@ app.get('/storage', (req, res) => {
 //request to shutdown the raspberry Pi in 1 minute
 app.get('/shutdown',(req, res) => {
   shutdown.shutdown();
+  res.send('se reiniciará el dispositivo en 60 segundos');
 });
 
 app.listen(3000, () => {
