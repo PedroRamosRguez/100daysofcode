@@ -33,15 +33,20 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
 const axios = require('axios');
 const store = require('../store');
+
 export default {
   name: 'temperature',
   data() {
     return {
       cpuTemperature: [],
       gpuTemperature: [],
-      store:store,
+      store: store,
     };
   },
   methods: {
@@ -56,7 +61,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-            
           });
       }, 3000);
     },
@@ -70,34 +74,31 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-             self.checkTemperature();
+            self.checkTemperature();
           });
       }, 3000);
     },
-    checkTemperature(temperature){
-      console.log('soy checktemperature')
-      if(temperature < 65){
-        this.hide()
-        // console.log(store.store.state.visibility)
-      }else{
-        this.show()
-        // console.log(store.store.state.visibility)
-      }    
+    checkTemperature(temperature) {
+      if (temperature < 80) {
+        this.hide();
+      } else {
+        this.show();
+      }
     },
-    hide(){
+    hide() {
       store.store.commit('hide');
     },
-    show(){
+    show() {
       store.store.commit('show');
-    }
+    },
   },
   created() {
     this.getCpuTemperature();
     this.getGpuTemperature();
   },
-  computed:{
-    count (){
-      return store.getters.count
+  computed: {
+    count() {
+      return store.getters.count;
     },
   },
 };

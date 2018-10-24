@@ -27,32 +27,58 @@
                 <router-link class="nav-link" to="/tree"><i class="fas fa-hdd fa-fw"></i> <span class="">  Directories</span></router-link>
               </li>
               <li class="nav-item" v-bind:style = "{visibility: store.store.state.visibility}">
-                <router-link class="nav-link mx-auto" to="/poweroff"><button type="submit"  v-bind:style="{visibility: store.store.state.visibility}" class="btn btn-danger" ><i class="fa fa-power-off boton" aria-hidden="true"></i></button></router-link>
+                <button type="submit" v-bind:style="{visibility: store.store.state.visibility}" class="btn btn-danger" @click="shutdown"><i class="fa fa-power-off boton" aria-hidden="true"></i></button>
               </li>
             </ul>
           </div>
         </nav>
       </aside>
       <main class="col" style="background-color: #09161D;">
+        <h1 v-if="shutdownState" style="color:red">Raspberry Pi will shutdown in {{counter}} secs</h1>
         <router-view/>
       </main>
     </div>
   </div>
 </template>
- 
+
 <script>
 import Vue from 'vue';
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+
 Vue.use(Vuex);
+const axios = require('axios');
 const store = require('./store');
+
 export default {
   name: 'app',
   data() {
     return {
-      store:store,
+      counter: 0,
+      shutdownState: false,
+      store: store,
     };
-  }
-}
+  },
+  methods: {
+    shutdown() {
+      const self = this;
+      axios.get('http://192.168.1.42:3000/shutdown')
+        .catch((error) => {
+          console.log(error);
+        })
+        .then(() => {
+          self.counter = 60;
+          self.shutdownStatte = true;
+          self.countdown();
+        });
+    },
+    countdown() {
+      setInterval(() => {
+        const self = this;
+        self.counter -= 1;
+      }, 1000);
+    },
+  },
+};
 </script>
 
 <style>

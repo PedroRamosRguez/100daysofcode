@@ -206,12 +206,10 @@ export default {
       }, 3000);
     },
     checkTemperature(temperature){
-      if(temperature < 65){
-        this.hide()
-        // console.log(store.store.state.visibility)
+      if(temperature < 80){
+        this.hide();
       }else{
-        this.show()
-        // console.log(store.store.state.visibility)
+        this.show();
       }    
     },
     hide(){
