@@ -8,6 +8,9 @@ const getStorage = require('./src/getStorage');
 const getTreeDirectory = require('./src/tree');
 const shutdown = require('./src/shutdown');
 const app = express();
+const cors = require('cors');
+const fs = require('fs');
+const ip = require('./src/getIpAddress')
 let fileSyst,
     size,
     maxTamanio,
@@ -21,7 +24,11 @@ let memory = {
   'percentageMemUsed': 0,
   'percentageMemFree': 0
 }
-app.use(morgan('tiny'))
+app.use(morgan('tiny'));
+/*app.use(cors({
+   origin:['*'],
+   methods:['GET'],
+}));*/
 
 //header for connecting via localhost or ipaddress
 app.use((req, res, next) => { 
@@ -130,5 +137,14 @@ app.get('/shutdown',(req, res) => {
 });
 
 app.listen(3000, () => {
+  ip.getIpAddress().then(function(response){
+    fs.writeFile('./rasp-monitoring/src/assets/address.json', JSON.stringify(response), (err) => {
+      if (!err) {
+        console.log('done');
+      }
+    });
+  },(err) => {
+    console.log(`error ${err}`);
+  });
   console.log('Server runing on port 3000!');
 });
