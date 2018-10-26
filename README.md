@@ -18,6 +18,9 @@ Para arrancar el servidor, primero instalar las dependencias `npm install` y pos
 Si es la primera vez que ejecuta la app, instalar las dependencias mediante el comando `npm install`
 Para arrancar el lado cliente, dirigirse a la carpeta rasp-monitoring `cd rasp-monitoring` y ejecutar npm run dev
 
+### Ejecutar test lado cliente
+
+Para ejecutar los tests en el lado cliente usar npm run test:unit.
 
 ### Capturas de pantalla de la APP realizada
 
