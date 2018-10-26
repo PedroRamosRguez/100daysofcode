@@ -30,18 +30,20 @@
 </template>
 <script>
 const axios = require('axios');
-
+const addressFile = require('../assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 export default {
   name: 'tree',
   data() {
     return {
+      address: address,
       directories: [],
     };
   },
   methods: {
     getTreeDirectory() {
       const self = this;
-      axios.get('http://192.168.1.42:3000/tree')
+      axios.get('http://'+address+':3000/tree')
         .then((response) => {
           self.directories = response.data.children;
           //console.log(self.directorios);

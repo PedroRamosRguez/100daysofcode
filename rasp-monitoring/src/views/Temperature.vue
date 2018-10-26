@@ -39,11 +39,13 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 const axios = require('axios');
 const store = require('../store');
-
+const addressFile = require('../assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 export default {
   name: 'temperature',
   data() {
     return {
+      address: address,
       cpuTemperature: [],
       gpuTemperature: [],
       store: store,
@@ -53,7 +55,7 @@ export default {
     getCpuTemperature() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/tempcpu')
+        axios.get('http://'+address+':3000/tempcpu')
           .then((response) => {
             const value = [new Date(), response.data];
             self.cpuTemperature.push(value);
@@ -67,7 +69,7 @@ export default {
     getGpuTemperature() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/tempgpu')
+        axios.get('http://'+address+':3000/tempgpu')
           .then((response) => {
             const value = [new Date(), response.data];
             self.gpuTemperature.push(value);

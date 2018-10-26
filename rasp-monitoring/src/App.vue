@@ -48,6 +48,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 const axios = require('axios');
 const store = require('./store');
+const addressFile = require('./assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 
 export default {
   name: 'app',
@@ -61,7 +63,7 @@ export default {
   methods: {
     shutdown() {
       const self = this;
-      axios.get('http://192.168.1.42:3000/shutdown')
+      axios.get('http://'+address+':3000/shutdown')
         .catch((error) => {
           console.log(error);
         })

@@ -24,11 +24,13 @@
 
 <script>
 const axios = require('axios');
-
+const addressFile = require('../assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 export default {
   name: 'storage',
   data() {
     return {
+      address: address,
       storage: [],
       maxSize: 0,
       library: {
@@ -45,7 +47,7 @@ export default {
     getStorage() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/storage')
+        axios.get('http://'+address+':3000/storage')
           .then((response) => {
             self.storage = response.data;
           })

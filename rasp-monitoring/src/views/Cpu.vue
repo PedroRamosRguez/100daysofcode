@@ -20,18 +20,21 @@
 
 <script>
 const axios = require('axios');
+const addressFile = require('../assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 export default {
   name: 'cpu',
   data() {
     return {
       cpuUse: [],
+      address: address
     };
   },
   methods: {
     getCpu() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/cpu')
+        axios.get('http://'+address+':3000/cpu')
           .then((response) => {
             const value = [new Date(), parseFloat(response.data)];
             self.cpuUse.push(value);

@@ -13,7 +13,7 @@
                 :colors="['#66ff66','#ff3333']"
               />
             </div>
-            Amount of Total Ram Memory {{totalMem}}<br/>
+            Amount of Total Ram Memory {{memTotal}}<br/>
             Amount of Free Ram Memory {{memFree}}<br/>
             Amount of Ram Used {{memUsed}}<br/>
           </div>
@@ -39,11 +39,13 @@
 
 <script>
 const axios = require('axios');
-
+const addressFile = require('../assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 export default {
   name: 'memory',
   data() {
     return {
+      address: address,
       memTotal: 0,
       memFree: 0,
       memUsed: 0,
@@ -63,7 +65,7 @@ export default {
     getMem() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/mem')
+        axios.get('http://'+address+':3000/mem')
           .then((response) => {
             self.memTotal = response.data.memTotal;
             self.memFree = response.data.memFree;

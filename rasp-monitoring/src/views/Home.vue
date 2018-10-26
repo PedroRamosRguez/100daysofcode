@@ -108,10 +108,13 @@
 <script>
 const axios = require('axios');
 const store = require('../store');
+const addressFile = require('../assets/address.json');
+const address = addressFile.eth == '' ? addressFile.wlan: address.eth
 export default {
   name: 'home',
   data() {
     return {
+      address: address,
       cpuUse: [],
       cpuTemperature: [],
       gpuTemperature: [],
@@ -139,7 +142,7 @@ export default {
     getCpu() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/cpu')
+        axios.get('http://'+address+':3000/cpu')
           .then((response) => {
             const value = [new Date(), response.data];
             self.cpuUse.push(value);
@@ -152,7 +155,7 @@ export default {
     getCpuTemperature() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/tempcpu')
+        axios.get('http://'+address+':3000/tempcpu')
           .then((response) => {
             const value = [new Date(), response.data];
             self.cpuTemperature.push(value);
@@ -167,7 +170,7 @@ export default {
     getGpuTemperature() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/tempgpu')
+        axios.get('http://'+address+':3000/tempgpu')
           .then((response) => {
             const value = [new Date(), response.data];
             self.gpuTemperature.push(value);
@@ -180,7 +183,7 @@ export default {
     getMem() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/mem')
+        axios.get('http://'+address+':3000/mem')
           .then((response) => {
             self.memTotal = response.data.memTotal;
             self.memFree = response.data.memFree;
@@ -196,7 +199,7 @@ export default {
     getStorage() {
       const self = this;
       setInterval(() => {
-        axios.get('http://192.168.1.42:3000/storage')
+        axios.get('http://'+address+':3000/storage')
           .then((response) => {
             self.storage = response.data;
           })
