@@ -8,7 +8,6 @@ const getStorage = require('./src/getStorage');
 const getTreeDirectory = require('./src/tree');
 const shutdown = require('./src/shutdown');
 const app = express();
-const cors = require('cors');
 const fs = require('fs');
 const ip = require('./src/getIpAddress')
 let fileSyst,
@@ -25,10 +24,6 @@ let memory = {
   'percentageMemFree': 0
 }
 app.use(morgan('tiny'));
-/*app.use(cors({
-   origin:['*'],
-   methods:['GET'],
-}));*/
 
 //header for connecting via localhost or ipaddress
 app.use((req, res, next) => { 
